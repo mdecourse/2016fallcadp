@@ -11,7 +11,7 @@ for line in result:
         if i == 0:
             data +="第"+str(n)+"組組長為"+group[i]
             data += "<br /><a href='https://"+group[i]+".github.io/2016fallcadp_bg"+str(n)+"'>bg"+str(n)+"分組網頁</a><br /><br />"
-        data += "組員作業網頁:<a href='https://"+ group[i]+".github.io/2016fallcadp_hw'>"+group[i]+"</a><br />"
+        data += "組員作業網頁:<a href='https://"+ group[i]+".github.io/2016fallcadp_hw'>"+group[i]+"</a><br /><br />"
     n = n + 1
 	
 window.open().document.write(data)
