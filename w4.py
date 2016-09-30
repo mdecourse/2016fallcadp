@@ -10,7 +10,7 @@ for line in result:
     for i in range(len(group)):
         if i == 0:
             data +="第"+str(n)+"組組長為"+group[i]
-            data += "<br /><a href='https://github.com/"+group[i]+"/2016cadp_bg"+str(n)+"'>bg"+str(n)+"分組倉儲</a><br /><br />"
+            data += "<br /><a href='https://github.com/"+group[i]+"/2016fallcadp_bg"+str(n)+"'>bg"+str(n)+"分組倉儲</a><br /><br />"
         data += "組員有"+ group[i]+","
     n = n + 1
 	
