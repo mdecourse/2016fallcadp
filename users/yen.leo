@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Created by Leo: http://leoeditor.com/leo_toc.html -->
-<?xml-stylesheet ekr_test ?>
 <leo_file xmlns:leo="http://leoeditor.com/namespaces/leo-python-editor/1.1" >
 <leo_header file_format="2" tnodes="0" max_tnode_index="0" clone_windows="0"/>
 <globals body_outline_ratio="0.5" body_secondary_ratio="0.5">
@@ -16,8 +15,8 @@
 </v>
 <v t="ibm.20161021125710.2"><vh>有關 2016fallcadp</vh></v>
 <v t="ibm.20161021125827.1"><vh>刪除 gh-page 分支</vh></v>
-<v t="ibm.20161021130015.1"><vh>課程議題</vh>
-<v t="ibm.20161021130112.1" a="E"><vh>期中自評連結</vh>
+<v t="ibm.20161021130015.1" a="E"><vh>課程議題</vh>
+<v t="ibm.20161021130112.1"><vh>期中自評連結</vh>
 <v t="ibm.20161021130311.1"><vh>2a分組名單</vh></v>
 <v t="ibm.20161021130236.1"><vh>2b分組名單</vh></v>
 <v t="ibm.20161021130401.1"><vh>組員如何互評</vh></v>
@@ -25,7 +24,9 @@
 </v>
 <v t="ibm.20161021132003.1" a="E"><vh>@path ../</vh>
 <v t="ibm.20161021132334.1"><vh>@button pelican-blog</vh></v>
-<v t="ibm.20161021132211.1"><vh>Pelican 設定</vh>
+<v t="yen.20161105104442.1"><vh>@edit README.md</vh></v>
+<v t="yen.20161105104737.1"><vh>@edit .gitignore</vh></v>
+<v t="ibm.20161021132211.1" a="E"><vh>Pelican 設定</vh>
 <v t="ibm.20161021132307.1"><vh>@edit local_publishconf.py</vh></v>
 <v t="ibm.20161021132252.1"><vh>@edit pelicanconf.py</vh></v>
 </v>
@@ -82,26 +83,26 @@
 <v t="ibm.20161021132021.36"><vh>Github pages 網頁</vh>
 <v t="ibm.20161021132021.37"><vh>各學員任務</vh></v>
 </v>
-<v t="ibm.20161021132021.38"><vh>所有操作都必須拍影片</vh>
+<v t="ibm.20161021132021.38" a="E"><vh>所有操作都必須拍影片</vh>
 <v t="ibm.20161021132021.39"><vh>操作影片</vh></v>
 </v>
-<v t="ibm.20161021132021.40"><vh>Solvespace 操作練習</vh>
+<v t="ibm.20161021132021.40" a="E"><vh>Solvespace 操作練習</vh>
 <v t="ibm.20161021132021.41"><vh>Solvespace 實習</vh></v>
 </v>
-<v t="ibm.20161021132021.42"><vh>OnShape 操作練習</vh>
+<v t="ibm.20161021132021.42" a="E"><vh>OnShape 操作練習</vh>
 <v t="ibm.20161021132021.43"><vh>OnShape 實習</vh></v>
 </v>
-<v t="ibm.20161021132021.44"><vh>Nutcracker 操作練習</vh>
+<v t="ibm.20161021132021.44" a="E"><vh>Nutcracker 操作練習</vh>
 <v t="ibm.20161021132021.45"><vh>OnShape 實習</vh></v>
 </v>
 <v t="ibm.20161021132021.46" a="E"><vh>Delta Printer 組裝</vh>
 <v t="ibm.20161021132021.47"><vh>機電資產品的設計考量</vh></v>
 </v>
-<v t="ibm.20161021132021.48"><vh>網際自評系統</vh>
+<v t="ibm.20161021132021.48" a="E"><vh>網際自評系統</vh>
 <v t="ibm.20161021132021.49"><vh>Flask 網際程式</vh></v>
 </v>
 </v>
-<v t="ibm.20161021132021.50"><vh>協同力訓練</vh>
+<v t="ibm.20161021132021.50" a="E"><vh>協同力訓練</vh>
 <v t="ibm.20161021132021.51" a="E"><vh>Github 帳號</vh>
 <v t="ibm.20161021132021.52"><vh>Github 倉儲網頁</vh></v>
 </v>
@@ -129,11 +130,17 @@
 </v>
 </v>
 <v t="ibm.20161021132054.1" a="E"><vh>@path content</vh>
-<v t="ibm.20161021132115.1"><vh>@edit 20160921.md</vh></v>
-<v t="ibm.20161021132133.1" a="E"><vh>@pages</vh>
+<v t="ibm.20161021132115.1"><vh>@edit 20161106.md</vh></v>
+<v t="yen.20161105094706.1"><vh>@edit 20161106-1.md</vh></v>
+<v t="yen.20161105095012.1"><vh>@edit 20161106-2.md</vh></v>
+<v t="yen.20161105094844.1"><vh>@edit 20161106-3.md</vh></v>
+<v t="yen.20161105101505.1"><vh>@edit 20161106-4.md</vh></v>
+<v t="ibm.20161021132133.1" a="E"><vh>@path pages</vh>
 <v t="ibm.20161021132146.1"><vh>@edit pages_1.md</vh></v>
 </v>
 </v>
+<v t="yen.20161105093739.1"><vh>@button https server</vh></v>
+<v t="yen.20161105093748.1"><vh>產生 .key 與 .crt</vh></v>
 </v>
 </vnodes>
 <tnodes>
@@ -250,7 +257,11 @@ OnShape 使用
 第8組:40423123,40423129,40423132,40423133,40423155,40423157,
 第9組:40423126,40423135,40423150,40423154,
 第10組:40423141,40423143,40423145,40423146,40423147,40423148,</t>
-<t tx="ibm.20161021130401.1">各組員除自評外, 可以進行互評, 並各自簡要說明評分理由</t>
+<t tx="ibm.20161021130401.1">各組員除自評外, 可以進行互評, 並各自簡要說明評分理由
+
+目前使用位於 OpenShift 平台上的雲端主機
+
+http://pygroup-ag100.rhcloud.com</t>
 <t tx="ibm.20161021132003.1"></t>
 <t tx="ibm.20161021132021.1">@language xml
 @tabwidth -4
@@ -812,13 +823,14 @@ make.start()
 Created by [KMOLab](http://chiamingyen.github.io/kmolab/blog/)
 &lt;/small&gt;
 
-[甲班電腦輔助設計實習課程網誌](blog/index.html)
+[電腦輔助設計實習課程網誌](blog/index.html)
 
-[乙班電腦輔助設計實習課程網誌](https://mdecourse.github.io/2016fallcadpb/blog)
+[甲班課程網誌](https://mdecourse.github.io/2016fallcadpa/blog)
+
+[乙班課程網誌](https://mdecourse.github.io/2016fallcadpb/blog)
 
 [Vimeo 上課影片](https://vimeo.com/user24079973/videos)
 
-[電腦輔助設計室電腦硬體](http://project.mde.tw/blog/yen-dian-nao-fu-zhu-she-ji-shi-dian-nao-pei-zhi.html)
 </t>
 <t tx="ibm.20161021132021.9">&lt;section data-markdown&gt;
     &lt;script type="text/template"&gt;
@@ -838,6 +850,31 @@ import os
 os.system("pelican content -o blog -s local_publishconf.py")
 g.es("admin pelican 近端執行完畢")
 
+
+</t>
+<t tx="yen.20161105093739.1">@language python
+import os
+import subprocess
+import threading
+import http.server, ssl
+
+def domake():
+    # build directory
+    os.chdir("./../")
+    server_address = ('localhost', 5443)
+    httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
+    httpd.socket = ssl.wrap_socket(httpd.socket,
+                                   server_side=True,
+                                   certfile='localhost.crt',
+                                   keyfile='localhost.key',
+                                   ssl_version=ssl.PROTOCOL_TLSv1)
+    print("5443 https server started")
+    httpd.serve_forever()
+
+# 利用執行緒執行 https 伺服器
+make = threading.Thread(target=domake)
+make.start()</t>
+<t tx="yen.20161105093748.1">sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout localhost.key -out localhost.crt
 
 </t>
 </tnodes>
