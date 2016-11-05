@@ -361,7 +361,175 @@ plt.show()
 &lt;p&gt;以各班 submodule 分組檢視 (必須各組與各成員 submodule 設置正確):&lt;/p&gt;
 &lt;p&gt;各成員 submodule 架構檢視 (必須各組與各成員 submodule 設置正確):&lt;/p&gt;
 &lt;p&gt;各班各組直接檢視:&lt;/p&gt;
-&lt;p&gt;各班各組成員 submodule 架構檢視 (必須各組 submodule 設置正確:&lt;/p&gt;
+&lt;p&gt;電腦輔助設計實習甲班成員連結:&lt;/p&gt;
+&lt;!-- 導入 Brython 標準程式庫 --&gt;
+
+&lt;script type="text/javascript" 
+    src="https://cdn.rawgit.com/brython-dev/brython/master/www/src/brython_dist.js"&gt;
+&lt;/script&gt;
+
+&lt;!-- 啟動 Brython --&gt;
+
+&lt;script&gt;
+window.onload=function(){
+brython(1);
+}
+&lt;/script&gt;
+
+&lt;!-- 以下利用 Brython 程式執行檔案讀取與比對流程 --&gt;
+
+&lt;!-- 假如需要用圖型表示數字, 則利用 canvas 繪圖 --&gt;
+
+&lt;!-- &lt;canvas id="plotarea" width="600" height="400"&gt;&lt;/canvas&gt; --&gt;
+
+&lt;p&gt;甲班學員投影片:&lt;/p&gt;
+&lt;div id="container1"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3" id="script1"&gt;
+from browser import document, html
+container1 = document['container1']
+adata = open("./../users/a.txt").read()
+alist = adata.splitlines()
+n = 0
+for stud_num in alist:
+    mlink = html.A(stud_num, href="http://"+str(stud_num)+".github.io/2016fallcadp_hw")
+    mlink += " | "
+    n = n +1
+    if n%8 == 0:
+        mlink += html.BR()
+    container1 &lt;= mlink
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+甲班學員網誌:&lt;/p&gt;
+&lt;div id="container2"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3" id="script2"&gt;
+from browser import document, html
+from script1 import alist
+container2 = document['container2']
+n = 0
+for stud_num in alist:
+    mlink = html.A(stud_num, href="http://"+str(stud_num)+".github.io/2016fallcadp_hw/blog")
+    mlink += " | "
+    n = n +1
+    if n%8 == 0:
+        mlink += html.BR()
+    container2 &lt;= mlink
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+甲班學員 wiki:&lt;/p&gt;
+&lt;div id="container3"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3" id="script3"&gt;
+from browser import document, html
+from script1 import alist
+container3 = document['container3']
+n = 0
+for stud_num in alist:
+    mlink = html.A(stud_num, href="http://github.com/"+str(stud_num)+"/2016fallcadp_hw/wiki")
+    mlink += " | "
+    n = n +1
+    if n%8 == 0:
+        mlink += html.BR()
+    container3 &lt;= mlink
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+甲班學員倉儲:&lt;/p&gt;
+&lt;div id="container4"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3" id="script4"&gt;
+from browser import document, html
+from script1 import alist
+container4 = document['container4']
+n = 0
+for stud_num in alist:
+    mlink = html.A(stud_num, href="http://github.com/"+str(stud_num)+"/2016fallcadp_hw")
+    mlink += " | "
+    n = n +1
+    if n%8 == 0:
+        mlink += html.BR()
+    container4 &lt;= mlink
+&lt;/script&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;乙班學員投影片:&lt;/p&gt;
+&lt;div id="container5"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3" id="script5"&gt;
+from browser import document, html
+container5 = document['container5']
+adata = open("./../users/b.txt").read()
+alist = adata.splitlines()
+n = 0
+for stud_num in alist:
+    mlink = html.A(stud_num, href="http://"+str(stud_num)+".github.io/2016fallcadp_hw")
+    mlink += " | "
+    n = n +1
+    if n%8 == 0:
+        mlink += html.BR()
+    container5 &lt;= mlink
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+乙班學員網誌:&lt;/p&gt;
+&lt;div id="container6"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3" id="script6"&gt;
+from browser import document, html
+from script5 import alist
+container6 = document['container6']
+n = 0
+for stud_num in alist:
+    mlink = html.A(stud_num, href="http://"+str(stud_num)+".github.io/2016fallcadp_hw/blog")
+    mlink += " | "
+    n = n +1
+    if n%8 == 0:
+        mlink += html.BR()
+    container6 &lt;= mlink
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+乙班學員 wiki:&lt;/p&gt;
+&lt;div id="container7"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3" id="script7"&gt;
+from browser import document, html
+from script5 import alist
+container7 = document['container7']
+n = 0
+for stud_num in alist:
+    mlink = html.A(stud_num, href="http://github.com/"+str(stud_num)+"/2016fallcadp_hw/wiki")
+    mlink += " | "
+    n = n +1
+    if n%8 == 0:
+        mlink += html.BR()
+    container7 &lt;= mlink
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+乙班學員倉儲:&lt;/p&gt;
+&lt;div id="container8"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3" id="script8"&gt;
+from browser import document, html
+from script5 import alist
+container8 = document['container8']
+n = 0
+for stud_num in alist:
+    mlink = html.A(stud_num, href="http://github.com/"+str(stud_num)+"/2016fallcadp_hw")
+    mlink += " | "
+    n = n +1
+    if n%8 == 0:
+        mlink += html.BR()
+    container8 &lt;= mlink
+&lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;
+各班各組成員 submodule 架構檢視 (必須各組 submodule 設置正確:&lt;/p&gt;
 &lt;p&gt;各成員直接檢視:&lt;/p&gt;
 &lt;p&gt;以下為分組資料處理程式:&lt;/p&gt;
 &lt;pre class="brush: python"&gt;
