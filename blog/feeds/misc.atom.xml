@@ -6,7 +6,11 @@
 &lt;p&gt;各組以每週完成 3 個 weeks 的 Onshape 標準 College Curriculum 教材後, 根據 &lt;a href="http://chiamingyen.github.io/kmolab_data/files/ProEMechanism.pdf"&gt;http://chiamingyen.github.io/kmolab_data/files/ProEMechanism.pdf&lt;/a&gt; 說明完成零件繪製與組立後,  如何精確得知機構運動過程的約束位置?&lt;/p&gt;</summary><category term="使用導引"></category><category term="創造力"></category><category term="表達能力"></category><category term="協同設計"></category></entry><entry><title>2016Fall 平面機構模擬</title><link href="./2016fall-ping-mian-ji-gou-mo-ni.html" rel="alternate"></link><published>2016-11-06T13:00:00+08:00</published><updated>2016-11-06T13:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-06:./2016fall-ping-mian-ji-gou-mo-ni.html</id><summary type="html">&lt;p&gt;有關 Solvespace 機構模擬功能介紹, 與 Python3 及 Brython 程式驗證&lt;/p&gt;
 
 
-&lt;p&gt;Solvespace 平面四連桿機構模擬&lt;/p&gt;
+&lt;h2&gt;Solvespace 平面四連桿機構模擬&lt;/h2&gt;
+&lt;p&gt;直接利用 Solvespace Analyze-Trace Point-Stop Trace 得到下列繞行路徑:&lt;/p&gt;
+&lt;p&gt;&lt;img src="/data/cadpa_w10_4bar.png" width="800" /&gt;&lt;/p&gt;
+&lt;p&gt;將所得到的點座標 .csv 以 Excel 畫圖, 得到:&lt;/p&gt;
+&lt;p&gt;&lt;img src="/data/cadpa_w10_4bar_excel.png" width="800" /&gt;&lt;/p&gt;
 &lt;p&gt;Python3 平面四連桿機構模擬:&lt;/p&gt;
 &lt;p&gt;Ubuntu 安裝 matplotlib:&lt;/p&gt;
 &lt;p&gt;sudo apt-get install python3-matplotlib&lt;/p&gt;
