@@ -150,9 +150,12 @@
 <v t="yen.20161105200556.2"><vh>@edit a.txt</vh></v>
 <v t="yen.20161105200556.3"><vh>@edit b.txt</vh></v>
 </v>
-<v t="yen.20161105200607.1" a="E"><vh>分組名單</vh>
+<v t="yen.20161105200607.1"><vh>分組名單</vh>
 <v t="yen.20161105200607.2"><vh>@edit agroup.txt</vh></v>
 <v t="yen.20161105200607.3"><vh>@edit bgroup.txt</vh></v>
+</v>
+<v t="leo.20161117155242.1" a="E"><vh>ref</vh>
+<v t="leo.20161117155220.1"><vh>newton_raphson</vh></v>
 </v>
 </vnodes>
 <tnodes>
@@ -864,6 +867,64 @@ g.es("admin pelican 近端執行完畢")
 
 
 </t>
+<t tx="leo.20161117155220.1">#       test_newton_raphson.py
+#       
+#       Copyright 2012 Ettore Pennestri' &lt;pennestri@mec.uniroma2.it&gt;
+#       
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#       
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#       
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+#       
+#       
+from numpy import *
+import numpy.linalg
+import scipy as sp
+import math
+
+# Define the system of nonlinear equations
+def func(x):	
+	f =zeros((len(x)))
+	f[0] = x[0]**2+x[1]**2-1
+	f[1] = x[0]-x[1]
+	return f
+# Define the Jacobian matrix of the system
+def jacobian(x):
+	n=len(x)
+	jac=zeros((n,n))
+	jac[0][0]=2*x[0]
+	jac[0][1]=2*x[1]
+	jac[1][0]=1.
+	jac[1][1]=-1.
+	return jac
+def newton_raphson(func,x,tol,max_iter):
+	for i in range(max_iter):
+		f0=func(x)
+		test=sqrt(sp.dot(f0,f0)/len(x)) # get norm vector of residuals
+		if test &lt; tol: return x # Check solution
+		jac = jacobian(x) # Jacobian
+		dx=-sp.dot(linalg.inv(jac),f0) # Calculates correction vector
+		x = x + dx  # Refresh the solution
+
+
+# Assigns the first attempt solution
+x = array([1.0, 2.0])
+print("the first attempt solution:",x)
+tol=1.0e-9 # Assign tolerance
+max_iter= 30 #Maximum number of iterations
+x=newton_raphson(func,x,tol,max_iter)
+print("System Solution:", x)</t>
+<t tx="leo.20161117155242.1"></t>
 <t tx="yen.20161105093739.1">@language python
 import os
 import subprocess
