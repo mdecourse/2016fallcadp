@@ -8,9 +8,9 @@
 
 &lt;h2&gt;Solvespace 平面四連桿機構模擬&lt;/h2&gt;
 &lt;p&gt;直接利用 Solvespace Analyze-Trace Point-Stop Trace 得到下列繞行路徑:&lt;/p&gt;
-&lt;p&gt;&lt;img src="/data/cadpa_w10_4bar.png" width="800" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="./../data/cadpa_w10_4bar.png" width="800" /&gt;&lt;/p&gt;
 &lt;p&gt;將所得到的點座標 .csv 以 Excel 畫圖, 得到:&lt;/p&gt;
-&lt;p&gt;&lt;img src="/data/cadpa_w10_4bar_excel.png" width="800" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="./../data/cadpa_w10_4bar_excel.png" width="800" /&gt;&lt;/p&gt;
 &lt;p&gt;Python3 平面四連桿機構模擬:&lt;/p&gt;
 &lt;p&gt;Ubuntu 安裝 matplotlib:&lt;/p&gt;
 &lt;p&gt;sudo apt-get install python3-matplotlib&lt;/p&gt;
