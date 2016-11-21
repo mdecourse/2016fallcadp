@@ -1,5 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2016-11-17T15:00:00+08:00</updated><entry><title>2016Fall 期中摘要</title><link href="./2016fall-qi-zhong-zhai-yao.html" rel="alternate"></link><published>2016-11-17T15:00:00+08:00</published><updated>2016-11-17T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-17:./2016fall-qi-zhong-zhai-yao.html</id><summary type="html">&lt;p&gt;經過 9 個禮拜, 電腦輔助設計實習課程到底學到什麼?&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2016-11-20T15:00:00+08:00</updated><entry><title>Glowscript 測試</title><link href="./glowscript-ce-shi.html" rel="alternate"></link><published>2016-11-20T15:00:00+08:00</published><updated>2016-11-20T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-20:./glowscript-ce-shi.html</id><summary type="html">&lt;p&gt;Glowscript 測試&lt;/p&gt;
+
+
+&lt;script type="text/javascript" src="./theme/js/jquery.min.js"&gt;
+&lt;/script&gt;
+
+&lt;script type="text/javascript" src="./theme/js/glow.2.2.min.js"&gt;
+&lt;/script&gt;
+
+&lt;!-- 導入 Brython 標準程式庫 --&gt;
+
+&lt;script type="text/javascript" 
+    src="https://cdn.rawgit.com/brython-dev/brython/master/www/src/brython_dist.js"&gt;
+&lt;/script&gt;
+
+&lt;!-- 啟動 Brython --&gt;
+
+&lt;script&gt;
+window.onload=function(){
+brython(1);
+}
+&lt;/script&gt;
+
+&lt;!-- 以下實際利用  Brython 執行繪圖 --&gt;
+
+&lt;div id="glowscript" class="glowscript"&gt;&lt;/div&gt;
+
+&lt;script type="text/python3"&gt;
+
+from browser import document as doc
+from browser import window
+
+class glow:
+  def __init__(self, container):
+      self._id=doc.get(id=container)[0]
+      setattr(self._id, 'id', '')
+
+      setattr(window, '__context', {})
+      setattr(getattr(window, '__context'), 'glowscript_container', self._id.elt)
+
+      self._glowscript=window.glowscript
+
+  def canvas(self):
+      return self._glowscript.canvas()
+
+  def box(self):
+      return self._glowscript.box()
+
+  def vec(self, i, j, k):
+      return self._glowscript.vec(i,j,k)
+
+  def rate(self, t, func):
+      self._glowscript.rate(t, func)
+
+#converts a python dictionary to a javascript object with attributes
+def dict2object(d):
+    class foo:
+       pass
+
+    _obj=foo()
+    _str=[]
+    for _key, _value in d.items():
+        _str.append("_obj.%s=%s" % (_key, _value))
+
+    eval(';'.join(_str))
+    return _obj
+
+## below this line is the "real" application for this page
+
+_gs=glow('glowscript')
+_scene=_gs.canvas()      #is this needed?  we don't use it.
+_box=_gs.box()
+
+class foo:
+  pass
+
+_obj=foo()
+_obj.angle=0.01
+_obj.axis=_gs.vec(0,1,0)
+
+def spin():
+    #_box.rotate(_obj)    # &lt;==  this doesn't work!
+    #the line below doesn't work either.. an issue with dict2object
+    #_box.rotate(dict2object({'angle': 0.01, 'axis': _gs.vec(0,1,0}))
+
+    _box.rotate(dict2object({'angle': 0.01}))  # &lt;==  this works!
+    _gs.rate(100, spin)  # make spin a callback       
+
+spin()
+&lt;/script&gt;</summary><category term="使用導引"></category><category term="期中"></category></entry><entry><title>2016Fall 期中摘要</title><link href="./2016fall-qi-zhong-zhai-yao.html" rel="alternate"></link><published>2016-11-17T15:00:00+08:00</published><updated>2016-11-17T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-17:./2016fall-qi-zhong-zhai-yao.html</id><summary type="html">&lt;p&gt;經過 9 個禮拜, 電腦輔助設計實習課程到底學到什麼?&lt;/p&gt;
 
 
 &lt;h2&gt;沒有 OpenShift 與 copy.com 之後&lt;/h2&gt;

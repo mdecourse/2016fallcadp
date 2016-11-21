@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>./</loc>
-<lastmod>2016-11-18T00:18:13-00:00</lastmod>
+<lastmod>2016-11-20T23:23:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>./archives.html</loc>
-<lastmod>2016-11-18T00:18:13-00:00</lastmod>
+<lastmod>2016-11-20T23:23:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>./tags.html</loc>
-<lastmod>2016-11-18T00:18:13-00:00</lastmod>
+<lastmod>2016-11-20T23:23:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>./categories.html</loc>
-<lastmod>2016-11-18T00:18:13-00:00</lastmod>
+<lastmod>2016-11-20T23:23:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -34,6 +34,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>./pages/about/</loc>
 <lastmod>2016-11-17T20:15:55+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>./glowscript-ce-shi.html</loc>
+<lastmod>2016-11-20T15:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -82,14 +89,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>./category/misc.html</loc>
-<lastmod>2016-11-17T15:00:00+08:06</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>./tag/qi-zhong.html</loc>
-<lastmod>2016-11-17T15:00:00+08:06</lastmod>
+<lastmod>2016-11-20T15:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -102,8 +102,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>./tag/shi-yong-dao-yin.html</loc>
-<lastmod>2016-11-17T15:00:00+08:06</lastmod>
+<loc>./tag/qi-zhong.html</loc>
+<lastmod>2016-11-20T15:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -123,8 +123,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>./tag/shi-yong-dao-yin.html</loc>
+<lastmod>2016-11-20T15:00:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>./author/yen.html</loc>
-<lastmod>2016-11-17T15:00:00+08:06</lastmod>
+<lastmod>2016-11-20T15:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
