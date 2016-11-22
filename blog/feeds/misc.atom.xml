@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2016-11-20T15:00:00+08:00</updated><entry><title>Glowscript 測試</title><link href="./glowscript-ce-shi.html" rel="alternate"></link><published>2016-11-20T15:00:00+08:00</published><updated>2016-11-20T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-20:./glowscript-ce-shi.html</id><summary type="html">&lt;p&gt;Glowscript 測試&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2016-11-20T15:00:00+08:00</updated><entry><title>Brython 動畫測試</title><link href="./brython-dong-hua-ce-shi.html" rel="alternate"></link><published>2016-11-20T15:00:00+08:00</published><updated>2016-11-20T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-20:./brython-dong-hua-ce-shi.html</id><summary type="html">&lt;p&gt;Brython 動畫測試&lt;/p&gt;
 
-
-&lt;script type="text/javascript" src="./theme/js/jquery.min.js"&gt;
-&lt;/script&gt;
-
-&lt;script type="text/javascript" src="./theme/js/glow.2.2.min.js"&gt;
-&lt;/script&gt;
 
 &lt;!-- 導入 Brython 標準程式庫 --&gt;
 
@@ -22,73 +16,75 @@ brython(1);
 }
 &lt;/script&gt;
 
-&lt;!-- 以下實際利用  Brython 執行繪圖 --&gt;
+&lt;!-- 
+以下實際利用  Brython 執行繪圖 
+程式來源: http://stackoverflow.com/questions/39689555/simple-image-rotation-with-python-and-dom-using-rapydscript
+--&gt;
 
-&lt;div id="glowscript" class="glowscript"&gt;&lt;/div&gt;
+&lt;script type='text/python3'&gt;
+from browser import window, timer, document, html
+import time
 
-&lt;script type="text/python3"&gt;
+t0 = time.time()
 
-from browser import document as doc
-from browser import window
+def user_agent():
+   """ Helper function for determining the user agent """
+   if window.navigator.userAgent.find('Chrome'):
+       return 'chrome'
+   elif window.navigator.userAgent.find('Firefox'):
+       return 'firefox'
+   elif window.navigator.userAgent.find('MSIE'):
+       return 'msie'
+   elif window.navigator.userAgent.find('Opera'):
+       return 'opera'
 
-class glow:
-  def __init__(self, container):
-      self._id=doc.get(id=container)[0]
-      setattr(self._id, 'id', '')
+# Dict Mapping UserAgents to Transform Property names
+# 在不同的瀏覽器, 有不同的 transform 名稱
+rotate_property = {
+   'chrome':'WebkitTransform',
+   'firefox':'MozTransform',
+   'msie':'msTransform',
+   'opera':'OTransform'
+}
 
-      setattr(window, '__context', {})
-      setattr(getattr(window, '__context'), 'glowscript_container', self._id.elt)
+degrees = 0
+def animation_step(elem_id):
+   """ Called every 30msec to increase the rotatation of the element. """
+   global degrees, tm
 
-      self._glowscript=window.glowscript
+   # Get the right property name according to the useragent
+   agent = user_agent()
+   prop = rotate_property.get(agent,'transform')
 
-  def canvas(self):
-      return self._glowscript.canvas()
+   # Get the element by id
+   el = document[elem_id]
 
-  def box(self):
-      return self._glowscript.box()
+   # Set the rotation of the element
+   # 設定 element 的旋轉屬性
+   setattr(el.style, prop, "rotate("+str(degrees)+"deg)")
+   # 將旋轉角度寫在 id 為 status 的區域
+   document['status'].innerHTML = "rotate("+str(degrees)+" deg)"
 
-  def vec(self, i, j, k):
-      return self._glowscript.vec(i,j,k)
+   # Increase the rotation
+   degrees += 1
+   if degrees &gt; 360:
+       # Stops the animation after 360 steps
+       timer.clear_interval(tm)
+       degrees = 0
 
-  def rate(self, t, func):
-      self._glowscript.rate(t, func)
+# Start the animation
+# 每 30 msec 重新刷新繪圖
+tm = timer.set_interval(lambda id='img1':animation_step(id), 30)
+# 將執行所花費時間, 寫在 id="status3" 的標註區域
+document['status3'].innerHTML = "執行所花費時間: ("+str(time.time()-t0)+" ms)"
 
-#converts a python dictionary to a javascript object with attributes
-def dict2object(d):
-    class foo:
-       pass
+&lt;/script&gt;
 
-    _obj=foo()
-    _str=[]
-    for _key, _value in d.items():
-        _str.append("_obj.%s=%s" % (_key, _value))
+&lt;!-- 以下利用 img 標註, 選擇位於 data 目錄下的 png 圖檔 --&gt;
 
-    eval(';'.join(_str))
-    return _obj
-
-## below this line is the "real" application for this page
-
-_gs=glow('glowscript')
-_scene=_gs.canvas()      #is this needed?  we don't use it.
-_box=_gs.box()
-
-class foo:
-  pass
-
-_obj=foo()
-_obj.angle=0.01
-_obj.axis=_gs.vec(0,1,0)
-
-def spin():
-    #_box.rotate(_obj)    # &lt;==  this doesn't work!
-    #the line below doesn't work either.. an issue with dict2object
-    #_box.rotate(dict2object({'angle': 0.01, 'axis': _gs.vec(0,1,0}))
-
-    _box.rotate(dict2object({'angle': 0.01}))  # &lt;==  this works!
-    _gs.rate(100, spin)  # make spin a callback       
-
-spin()
-&lt;/script&gt;</summary><category term="使用導引"></category><category term="期中"></category></entry><entry><title>2016Fall 期中摘要</title><link href="./2016fall-qi-zhong-zhai-yao.html" rel="alternate"></link><published>2016-11-17T15:00:00+08:00</published><updated>2016-11-17T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-17:./2016fall-qi-zhong-zhai-yao.html</id><summary type="html">&lt;p&gt;經過 9 個禮拜, 電腦輔助設計實習課程到底學到什麼?&lt;/p&gt;
+&lt;p&gt;&lt;img id="img1" src="./../data/guitar_chord.png" alt="cog1"&gt;
+&lt;div id="status"&gt;&lt;/div&gt;
+&lt;div id="status3"&gt;&lt;/div&gt;&lt;/p&gt;</summary><category term="使用導引"></category><category term="Brython"></category></entry><entry><title>2016Fall 期中摘要</title><link href="./2016fall-qi-zhong-zhai-yao.html" rel="alternate"></link><published>2016-11-17T15:00:00+08:00</published><updated>2016-11-17T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-17:./2016fall-qi-zhong-zhai-yao.html</id><summary type="html">&lt;p&gt;經過 9 個禮拜, 電腦輔助設計實習課程到底學到什麼?&lt;/p&gt;
 
 
 &lt;h2&gt;沒有 OpenShift 與 copy.com 之後&lt;/h2&gt;

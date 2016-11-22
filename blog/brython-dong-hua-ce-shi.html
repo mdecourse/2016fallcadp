@@ -2,7 +2,7 @@
 <html lang="en"
 >
 <head>
-    <title>Glowscript 測試 - 2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title>
+    <title>Brython 動畫測試 - 2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -166,21 +166,21 @@ init_mathjax = function() {
 init_mathjax();
 </script>
 
-<link rel="canonical" href="./glowscript-ce-shi.html">
+<link rel="canonical" href="./brython-dong-hua-ce-shi.html">
 
         <meta name="author" content="yen" />
-        <meta name="keywords" content="使用導引,期中" />
-        <meta name="description" content="Glowscript 測試" />
+        <meta name="keywords" content="使用導引,Brython" />
+        <meta name="description" content="Brython 動畫測試" />
 
         <meta property="og:site_name" content="2016Fall 電腦輔助設計實習 (虎尾科大MDE)" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Glowscript 測試"/>
-        <meta property="og:url" content="./glowscript-ce-shi.html"/>
-        <meta property="og:description" content="Glowscript 測試"/>
+        <meta property="og:title" content="Brython 動畫測試"/>
+        <meta property="og:url" content="./brython-dong-hua-ce-shi.html"/>
+        <meta property="og:description" content="Brython 動畫測試"/>
         <meta property="article:published_time" content="2016-11-20" />
             <meta property="article:section" content="Misc" />
             <meta property="article:tag" content="使用導引" />
-            <meta property="article:tag" content="期中" />
+            <meta property="article:tag" content="Brython" />
             <meta property="article:author" content="yen" />
 
 
@@ -288,10 +288,10 @@ init_mathjax();
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="./glowscript-ce-shi.html"
+                    <a href="./brython-dong-hua-ce-shi.html"
                        rel="bookmark"
-                       title="Permalink to Glowscript 測試">
-                        Glowscript 測試
+                       title="Permalink to Brython 動畫測試">
+                        Brython 動畫測試
                     </a>
                 </h1>
             </header>
@@ -311,18 +311,12 @@ init_mathjax();
 <span class="label label-default">Tags</span>
 	<a href="./tag/shi-yong-dao-yin.html">使用導引</a>
         /
-	<a href="./tag/qi-zhong.html">期中</a>
+	<a href="./tag/brython.html">Brython</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>Glowscript 測試</p>
+                <p>Brython 動畫測試</p>
 
-
-<script type="text/javascript" src="./theme/js/jquery.min.js">
-</script>
-
-<script type="text/javascript" src="./theme/js/glow.2.2.min.js">
-</script>
 
 <!-- 導入 Brython 標準程式庫 -->
 
@@ -338,73 +332,75 @@ brython(1);
 }
 </script>
 
-<!-- 以下實際利用  Brython 執行繪圖 -->
+<!-- 
+以下實際利用  Brython 執行繪圖 
+程式來源: http://stackoverflow.com/questions/39689555/simple-image-rotation-with-python-and-dom-using-rapydscript
+-->
 
-<div id="glowscript" class="glowscript"></div>
+<script type='text/python3'>
+from browser import window, timer, document, html
+import time
 
-<script type="text/python3">
+t0 = time.time()
 
-from browser import document as doc
-from browser import window
+def user_agent():
+   """ Helper function for determining the user agent """
+   if window.navigator.userAgent.find('Chrome'):
+       return 'chrome'
+   elif window.navigator.userAgent.find('Firefox'):
+       return 'firefox'
+   elif window.navigator.userAgent.find('MSIE'):
+       return 'msie'
+   elif window.navigator.userAgent.find('Opera'):
+       return 'opera'
 
-class glow:
-  def __init__(self, container):
-      self._id=doc.get(id=container)[0]
-      setattr(self._id, 'id', '')
+# Dict Mapping UserAgents to Transform Property names
+# 在不同的瀏覽器, 有不同的 transform 名稱
+rotate_property = {
+   'chrome':'WebkitTransform',
+   'firefox':'MozTransform',
+   'msie':'msTransform',
+   'opera':'OTransform'
+}
 
-      setattr(window, '__context', {})
-      setattr(getattr(window, '__context'), 'glowscript_container', self._id.elt)
+degrees = 0
+def animation_step(elem_id):
+   """ Called every 30msec to increase the rotatation of the element. """
+   global degrees, tm
 
-      self._glowscript=window.glowscript
+   # Get the right property name according to the useragent
+   agent = user_agent()
+   prop = rotate_property.get(agent,'transform')
 
-  def canvas(self):
-      return self._glowscript.canvas()
+   # Get the element by id
+   el = document[elem_id]
 
-  def box(self):
-      return self._glowscript.box()
+   # Set the rotation of the element
+   # 設定 element 的旋轉屬性
+   setattr(el.style, prop, "rotate("+str(degrees)+"deg)")
+   # 將旋轉角度寫在 id 為 status 的區域
+   document['status'].innerHTML = "rotate("+str(degrees)+" deg)"
 
-  def vec(self, i, j, k):
-      return self._glowscript.vec(i,j,k)
+   # Increase the rotation
+   degrees += 1
+   if degrees > 360:
+       # Stops the animation after 360 steps
+       timer.clear_interval(tm)
+       degrees = 0
 
-  def rate(self, t, func):
-      self._glowscript.rate(t, func)
+# Start the animation
+# 每 30 msec 重新刷新繪圖
+tm = timer.set_interval(lambda id='img1':animation_step(id), 30)
+# 將執行所花費時間, 寫在 id="status3" 的標註區域
+document['status3'].innerHTML = "執行所花費時間: ("+str(time.time()-t0)+" ms)"
 
-#converts a python dictionary to a javascript object with attributes
-def dict2object(d):
-    class foo:
-       pass
-
-    _obj=foo()
-    _str=[]
-    for _key, _value in d.items():
-        _str.append("_obj.%s=%s" % (_key, _value))
-
-    eval(';'.join(_str))
-    return _obj
-
-## below this line is the "real" application for this page
-
-_gs=glow('glowscript')
-_scene=_gs.canvas()      #is this needed?  we don't use it.
-_box=_gs.box()
-
-class foo:
-  pass
-
-_obj=foo()
-_obj.angle=0.01
-_obj.axis=_gs.vec(0,1,0)
-
-def spin():
-    #_box.rotate(_obj)    # <==  this doesn't work!
-    #the line below doesn't work either.. an issue with dict2object
-    #_box.rotate(dict2object({'angle': 0.01, 'axis': _gs.vec(0,1,0}))
-
-    _box.rotate(dict2object({'angle': 0.01}))  # <==  this works!
-    _gs.rate(100, spin)  # make spin a callback       
-
-spin()
 </script>
+
+<!-- 以下利用 img 標註, 選擇位於 data 目錄下的 png 圖檔 -->
+
+<p><img id="img1" src="./../data/guitar_chord.png" alt="cog1">
+<div id="status"></div>
+<div id="status3"></div></p>
             </div>
             <!-- /.entry-content -->
         </article>
@@ -420,8 +416,8 @@ spin()
             <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
                 <ul class="list-group" id="recentposts">
                     <li class="list-group-item">
-                        <a href="./glowscript-ce-shi.html">
-                            Glowscript 測試
+                        <a href="./brython-dong-hua-ce-shi.html">
+                            Brython 動畫測試
                         </a>
                     </li>
                     <li class="list-group-item">
