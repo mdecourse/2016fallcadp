@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2016-11-20T15:00:00+08:00</updated><entry><title>Brython 動畫測試</title><link href="./brython-dong-hua-ce-shi.html" rel="alternate"></link><published>2016-11-20T15:00:00+08:00</published><updated>2016-11-20T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-20:./brython-dong-hua-ce-shi.html</id><summary type="html">&lt;p&gt;Brython 動畫測試&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2016-11-24T15:00:00+08:00</updated><entry><title>利用 Git submodule 功能進行組員資料設計整合</title><link href="./li-yong-git-submodule-gong-neng-jin-xing-zu-yuan-zi-liao-she-ji-zheng-he.html" rel="alternate"></link><published>2016-11-24T15:00:00+08:00</published><updated>2016-11-24T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-24:./li-yong-git-submodule-gong-neng-jin-xing-zu-yuan-zi-liao-she-ji-zheng-he.html</id><summary type="html">&lt;p&gt;電腦輔助設計流程中, 利用 git submodule 指令, 可以整合組員所提供的設計資料、設計程式與設計零組件.&lt;/p&gt;
+
+
+&lt;p&gt;引用子模組中的四連桿繞行軌跡點座標資料, 進行繪圖的範例: &lt;a href="https://scrum-1.github.io/2016fallcadp_ag100/blog/git-submodule-zai-dian-nao-fu-zhu-she-ji-shang-de-ying-yong.html"&gt;https://scrum-1.github.io/2016fallcadp_ag100/blog/git-submodule-zai-dian-nao-fu-zhu-she-ji-shang-de-ying-yong.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;引用組員設計程式的範例:&lt;/p&gt;
+&lt;p&gt;引用組員的設計零組件範例:&lt;/p&gt;
+&lt;p&gt;利用 github 所提供的 stl 零件格式展示, 或 Solvespace 的零件 .js 格式, 將組員分別完成的 OnShape 課程零組件, 透過子模組設定, 展示在各分組的網誌中.&lt;/p&gt;</summary><category term="使用導引"></category><category term="Brython"></category><category term="git"></category><category term="submodule"></category></entry><entry><title>Brython 動畫測試</title><link href="./brython-dong-hua-ce-shi.html" rel="alternate"></link><published>2016-11-20T15:00:00+08:00</published><updated>2016-11-20T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-20:./brython-dong-hua-ce-shi.html</id><summary type="html">&lt;p&gt;Brython 動畫測試&lt;/p&gt;
 
 
 &lt;!-- 導入 Brython 標準程式庫 --&gt;
