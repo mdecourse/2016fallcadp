@@ -557,12 +557,20 @@ plt.show()
 &lt;h4&gt;Lathe (旋轉繞行長出或除料)&lt;/h4&gt;
 &lt;h4&gt;Export Triangle Mesh&lt;/h4&gt;
 &lt;p&gt;STL 格式&lt;/p&gt;
+&lt;p&gt;將零件檔案轉出 STL 格式後 (binary or ASCII format definitions), 進入倉儲後, 利用 &lt;a href="https://help.github.com/articles/3d-file-viewer/"&gt;Github 內建的 stl viewer 功能&lt;/a&gt;展示.&lt;/p&gt;
 &lt;p&gt;three.js&lt;/p&gt;
 &lt;iframe src="./../data/threejs/donut.html" width="800" height="600"&gt;&lt;/iframe&gt;
 
 &lt;h3&gt;2. Assembly (零件組立)&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://solvespace.com/box.pl"&gt;http://solvespace.com/box.pl&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;3. Linkages (fourbar &amp;amp; multilink) (四連桿與多連桿運動模擬)&lt;/h3&gt;
-&lt;h3&gt;4. Compiled &amp;amp; API (編譯與延伸應用)&lt;/h3&gt;</summary><category term="使用導引"></category><category term="創造力"></category><category term="表達能力"></category><category term="協同設計"></category></entry><entry><title>2016Fall 機械設計主題教學</title><link href="./2016fall-ji-jie-she-ji-zhu-ti-jiao-xue.html" rel="alternate"></link><published>2016-11-06T11:00:00+08:00</published><updated>2016-11-06T11:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-06:./2016fall-ji-jie-she-ji-zhu-ti-jiao-xue.html</id><summary type="html">&lt;p&gt;知識管理與最佳化應用實驗室試圖利用計算機程式、網際內容管理、電腦輔助設計實習與協同產品設計實習等課程, 進行與機械設計相關的主題式教學, 其中包含強化創造力的教學、令學員熟習六種工程表達方式, 並且俱備融入協同設計所需要的四大面向知識與技能.&lt;/p&gt;
+&lt;p&gt;四連桿:&lt;/p&gt;
+&lt;p&gt;多連桿:  &lt;a href="http://solvespace.com/linkage.pl"&gt;http://solvespace.com/linkage.pl&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;4. Compiled &amp;amp; API (編譯與延伸應用)&lt;/h3&gt;
+&lt;p&gt;使用 Virtualbox 虛擬主機執行 Windows 64 位元與 Ubuntu 64 位元環境中的編譯與延伸應用.&lt;/p&gt;
+&lt;p&gt;Virtualbox Ubuntu 64位元虛擬檔案: &lt;a href="http://140.130.17.17/public/Ubuntu/1604_solvespace_final/Ubuntu_160464.vdi"&gt;http://140.130.17.17/public/Ubuntu/1604_solvespace_final/Ubuntu_160464.vdi&lt;/a&gt; (只有在區網可以下載)&lt;/p&gt;
+&lt;p&gt;在虛擬主機中完成 Solvespace 編譯與執行的參考畫面:&lt;/p&gt;
+&lt;p&gt;&lt;img src="./../data/solvespace/cadpa_w11_solvespace_compiled.png" width="800" /&gt;&lt;/p&gt;</summary><category term="使用導引"></category><category term="創造力"></category><category term="表達能力"></category><category term="協同設計"></category></entry><entry><title>2016Fall 機械設計主題教學</title><link href="./2016fall-ji-jie-she-ji-zhu-ti-jiao-xue.html" rel="alternate"></link><published>2016-11-06T11:00:00+08:00</published><updated>2016-11-06T11:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-06:./2016fall-ji-jie-she-ji-zhu-ti-jiao-xue.html</id><summary type="html">&lt;p&gt;知識管理與最佳化應用實驗室試圖利用計算機程式、網際內容管理、電腦輔助設計實習與協同產品設計實習等課程, 進行與機械設計相關的主題式教學, 其中包含強化創造力的教學、令學員熟習六種工程表達方式, 並且俱備融入協同設計所需要的四大面向知識與技能.&lt;/p&gt;
 
 
 &lt;h1&gt;機械設計主題教學&lt;/h1&gt;
