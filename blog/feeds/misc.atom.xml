@@ -555,11 +555,20 @@ plt.show()
 &lt;p&gt;When we hover the mouse over any entity, constraint, or other object in the sketch, that object will appear highlighted in yellow. For example, the XY plane, which is drawn as a dashed square, will appear highlighted when we hover the mouse over it. The YZ and ZX planes initially look like dashed lines, because they are being viewed on edge; but they still appear highlighted in yellow when we hold the mouse over them. It is similarly possible to highlight the X, Y, and Z axes (which are drawn as arrows), or the origin (which like all points is drawn as a green square).&lt;/p&gt;
 &lt;h4&gt;Extrude (平行長出或除料)&lt;/h4&gt;
 &lt;h4&gt;Lathe (旋轉繞行長出或除料)&lt;/h4&gt;
+&lt;h4&gt;零組件繪圖練習&lt;/h4&gt;
+&lt;p&gt;利用 Solvespace, 以 &lt;a href="./../data/w12/College_Student_Primer_Creo_2.pdf"&gt;College_Student_Primer_Creo_2.pdf&lt;/a&gt; 為範本, 編寫一本 Solvespace 零組件導引 pdf 手冊.&lt;/p&gt;
+&lt;p&gt;利用 .md 檔案格式編寫, 建立導引手冊所需的圖文資料後, 設法利用 Pandoc 與 LaTeX 轉為 html 與 pdf 檔案.&lt;/p&gt;
+&lt;p&gt;首先必須設法編譯 Solvespace 原始碼, 取得 Windows 10 64 位元與 Ubuntu 16.04 64 位元環境下執行的 solvespace.exe 與 solvespace.&lt;/p&gt;
+&lt;p&gt;啟動 Solvespace 後, 在 View 功能表下確定所使用的尺寸單位, 選擇 mm 作為繪圖單位.&lt;/p&gt;
+&lt;p&gt;根據尺寸繪製一個 block.&lt;/p&gt;
 &lt;h4&gt;Export Triangle Mesh&lt;/h4&gt;
 &lt;p&gt;STL 格式&lt;/p&gt;
 &lt;p&gt;將零件檔案轉出 STL 格式後 (binary or ASCII format definitions), 進入倉儲後, 利用 &lt;a href="https://help.github.com/articles/3d-file-viewer/"&gt;Github 內建的 stl viewer 功能&lt;/a&gt;展示.&lt;/p&gt;
 &lt;p&gt;three.js&lt;/p&gt;
 &lt;iframe src="./../data/threejs/donut.html" width="800" height="600"&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;a href="./../data/w12/College_Student_Primer_Creo_2.pdf"&gt;W12 組立&lt;/a&gt;&lt;/p&gt;
+&lt;iframe src="./../data/threejs/w12.html" width="800" height="600"&gt;&lt;/iframe&gt;
 
 &lt;h3&gt;2. Assembly (零件組立)&lt;/h3&gt;
 &lt;p&gt;&lt;a href="http://solvespace.com/box.pl"&gt;http://solvespace.com/box.pl&lt;/a&gt;&lt;/p&gt;
