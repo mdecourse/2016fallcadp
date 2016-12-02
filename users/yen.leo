@@ -145,6 +145,7 @@
 <v t="yen.20161105093748.1"><vh>產生 .key 與 .crt</vh></v>
 </v>
 <v t="yen.20161105093739.1"><vh>@button https server</vh></v>
+<v t="leo.20161202151659.1"><vh>@button ipv6 https server</vh></v>
 <v t="yen.20161105200533.1"><vh>reference</vh>
 <v t="yen.20161105113703.1"><vh>linkage synthesis</vh></v>
 <v t="yen.20161105122128.1"><vh>DE in C</vh></v>
@@ -933,6 +934,34 @@ max_iter= 30 #Maximum number of iterations
 x=newton_raphson(func,x,tol,max_iter)
 print("System Solution:", x)</t>
 <t tx="leo.20161117155242.1"></t>
+<t tx="leo.20161202151659.1">@language python
+import os
+import subprocess
+import threading
+import socket
+import http.server, ssl
+
+class HTTPServerV6(http.server.HTTPServer):
+    address_family = socket.AF_INET6
+  
+def domake():
+    # build directory
+    os.chdir("./../")
+    ipv6_address = '2001:288:6004:17:3004::808'
+    server_address = (ipv6_address, 6443)
+    #httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
+    httpd = HTTPServerV6(server_address, http.server.SimpleHTTPRequestHandler)
+    httpd.socket = ssl.wrap_socket(httpd.socket,
+                                   server_side=True,
+                                   certfile='localhost.crt',
+                                   keyfile='localhost.key',
+                                   ssl_version=ssl.PROTOCOL_TLSv1)
+    print("6443 https server started")
+    httpd.serve_forever()
+
+# 利用執行緒執行 https 伺服器
+make = threading.Thread(target=domake)
+make.start()</t>
 <t tx="yen.20161105093739.1">@language python
 import os
 import subprocess
