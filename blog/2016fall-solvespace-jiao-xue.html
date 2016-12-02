@@ -348,8 +348,13 @@ init_mathjax();
 <p><a href="./../data/w12/College_Student_Primer_Creo_2.pdf">W12 組立</a></p>
 <iframe src="./../data/threejs/w12.html" width="800" height="600"></iframe>
 
+<iframe src="./../data/threejs/w12b.html" width="800" height="600"></iframe>
+
 <h3>2. Assembly (零件組立)</h3>
 <p><a href="http://solvespace.com/box.pl">http://solvespace.com/box.pl</a></p>
+<p>To start, we would like to define the orientation of the part. We can do that by locking one of the part's normals in the same orientation as one of our coordinate axes. Here, a good choice would be to constrain any of the base's normals—which are drawn as blue arrows—in the same orientation as our coordinate system's Z axis, which is also drawn as a blue arrow, in this view pointing approximately up from the origin. Select those two normals by left-clicking them, and choose Constrain → Same Orientation, or the equivalent constraint from the toolbar.</p>
+<p>The two normals are now each marked with a magenta X, which is visible above. (It doesn't matter which of the normals on the part were chosen to constrain, since they all point in the same direction. The choice is arbitrary.) This means that those two normals are constrained to point in the same direction (i.e., parallel); but it also locks the twist of the part about that axis, so it fully constrains the part's orientation. The same-orientation constraint is useful, because it completely specifies a part's orientation with a single constraint.</p>
+<p>We can try to drag the part's orientation and rotation now. We will find that it is still possible to translate the part anywhere, but impossible to rotate it, because that rotation is now fixed. To define the translation, we can use a point-coincident constraint. Select the two points marked in red in the image above, and choose Constrain → On Point. The two points will now be constrained to be coincident, locking the imported part's translation. The imported part is now fully constrained.</p>
 <h3>3. Linkages (fourbar &amp; multilink) (四連桿與多連桿運動模擬)</h3>
 <p>四連桿:</p>
 <p>多連桿:  <a href="http://solvespace.com/linkage.pl">http://solvespace.com/linkage.pl</a></p>
