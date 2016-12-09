@@ -151,7 +151,7 @@
 <v t="yen.20161105113703.1"><vh>linkage synthesis</vh></v>
 <v t="yen.20161105122128.1"><vh>DE in C</vh></v>
 </v>
-<v t="yen.20161105200556.1" a="E"><vh>選課人員名單</vh>
+<v t="yen.20161105200556.1"><vh>選課人員名單</vh>
 <v t="yen.20161105200556.2"><vh>@edit a.txt</vh></v>
 <v t="yen.20161105200556.3"><vh>@edit b.txt</vh></v>
 </v>
@@ -159,12 +159,17 @@
 <v t="yen.20161105200607.2"><vh>@edit agroup.txt</vh></v>
 <v t="yen.20161105200607.3"><vh>@edit bgroup.txt</vh></v>
 </v>
-<v t="leo.20161117155242.1" a="E"><vh>ref</vh>
+<v t="leo.20161117155242.1"><vh>ref</vh>
 <v t="leo.20161117155220.1"><vh>newton_raphson</vh></v>
 <v t="yen.20161121224943.1" a="E"><vh>SVGChordV2_2</vh>
 <v t="yen.20161121224943.2"><vh>example</vh></v>
 <v t="yen.20161121231423.1"><vh>ChordsDefs.xml</vh></v>
 <v t="yen.20161121232111.1"><vh>genchord.py</vh></v>
+</v>
+</v>
+<v t="leo.20161209124518.1" a="E"><vh>W13 問題</vh>
+<v t="leo.20161209124540.1" a="E"><vh>@path ./../plugin/liquid_tags/test_data/content/</vh>
+<v t="leo.20161209124741.1"><vh>@edit test-ipython-notebook-nbformat3.md</vh></v>
 </v>
 </v>
 </vnodes>
@@ -963,6 +968,8 @@ def domake():
 # 利用執行緒執行 https 伺服器
 make = threading.Thread(target=domake)
 make.start()</t>
+<t tx="leo.20161209124518.1"></t>
+<t tx="leo.20161209124540.1"></t>
 <t tx="yen.20161105093739.1">@language python
 import os
 import subprocess
