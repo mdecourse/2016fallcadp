@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/all.atom.xml" rel="self"></link><id>./</id><updated>2016-11-24T15:00:00+08:00</updated><entry><title>利用 Git submodule 功能進行組員資料設計整合</title><link href="./li-yong-git-submodule-gong-neng-jin-xing-zu-yuan-zi-liao-she-ji-zheng-he.html" rel="alternate"></link><published>2016-11-24T15:00:00+08:00</published><updated>2016-11-24T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-24:./li-yong-git-submodule-gong-neng-jin-xing-zu-yuan-zi-liao-she-ji-zheng-he.html</id><summary type="html">&lt;p&gt;電腦輔助設計流程中, 利用 git submodule 指令, 可以整合組員所提供的設計資料、設計程式與設計零組件.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/all.atom.xml" rel="self"></link><id>./</id><updated>2016-12-09T15:00:00+08:00</updated><entry><title>利用 Python 程式將 docx 轉為 pdf</title><link href="./li-yong-python-cheng-shi-jiang-docx-zhuan-wei-pdf.html" rel="alternate"></link><published>2016-12-09T15:00:00+08:00</published><updated>2016-12-09T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-12-09:./li-yong-python-cheng-shi-jiang-docx-zhuan-wei-pdf.html</id><summary type="html">&lt;p&gt;用來學習 Onshape 的教學檔案格式為 docx, 以下使用 Windows 環境下的 Python3 程式, 自動進入各教學檔案目錄, 將 docx 轉為 pdf&lt;/p&gt;
+
+
+&lt;p&gt;首先必須以 pip install comtypes 安裝 comtypes 模組, 然後以 SciTE, 在教學檔案目錄中, 利用以下程式碼建立 docx2pdf.py 後執行, 即可將所有 56 個 docx 轉出 pdf 檔案.&lt;/p&gt;
+&lt;pre class="brush: python"&gt;
+import sys
+import os
+import comtypes.client
+
+wdFormatPDF = 17
+
+#in_file = input("input docx")
+#out_file = input("output filename")
+
+def docx2pdf(in_file, out_file):
+    word = comtypes.client.CreateObject('Word.Application')
+    doc = word.Documents.Open(in_file)
+    doc.SaveAs(out_file, FileFormat=wdFormatPDF)
+    doc.Close()
+    word.Quit()
+
+count = 0
+# traverse root directory, and list directories as dirs and files as files
+for root, dirs, files in os.walk(os.getcwd()):
+    #print(root)
+    path = root.split('/')
+    #print(path)
+    #print((len(path) - 1) * '---', os.path.basename(root))
+    #print(files)
+    for file in files:
+        #print(len(path) * '---', file)
+        file_ext = file.split(".")[1]
+        file_name = file.split(".")[0]
+        #print(file_ext)
+        if file_ext == "docx":
+            count = count + 1
+            in_file = path[0] + "/" + file
+            #print(count,":", in_file)
+            out_file = path[0] + "/" + file_name + ".pdf"
+            #print(out_file)
+            docx2pdf(in_file, out_file)
+
+#print(count)
+#docx2pdf(in_file, out_file)
+print("done")
+&lt;/pre&gt;</summary><category term="使用導引"></category><category term="docx"></category><category term="pdf"></category></entry><entry><title>利用 Git submodule 功能進行組員資料設計整合</title><link href="./li-yong-git-submodule-gong-neng-jin-xing-zu-yuan-zi-liao-she-ji-zheng-he.html" rel="alternate"></link><published>2016-11-24T15:00:00+08:00</published><updated>2016-11-24T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-11-24:./li-yong-git-submodule-gong-neng-jin-xing-zu-yuan-zi-liao-she-ji-zheng-he.html</id><summary type="html">&lt;p&gt;電腦輔助設計流程中, 利用 git submodule 指令, 可以整合組員所提供的設計資料、設計程式與設計零組件.&lt;/p&gt;
 
 
 &lt;p&gt;引用子模組中的四連桿繞行軌跡點座標資料, 進行繪圖的範例: &lt;a href="https://scrum-1.github.io/2016fallcadp_ag100/blog/git-submodule-zai-dian-nao-fu-zhu-she-ji-shang-de-ying-yong.html"&gt;https://scrum-1.github.io/2016fallcadp_ag100/blog/git-submodule-zai-dian-nao-fu-zhu-she-ji-shang-de-ying-yong.html&lt;/a&gt;&lt;/p&gt;
