@@ -159,13 +159,14 @@
 <v t="yen.20161105200607.2"><vh>@edit agroup.txt</vh></v>
 <v t="yen.20161105200607.3"><vh>@edit bgroup.txt</vh></v>
 </v>
-<v t="leo.20161117155242.1"><vh>ref</vh>
+<v t="leo.20161117155242.1" a="E"><vh>ref</vh>
 <v t="leo.20161117155220.1"><vh>newton_raphson</vh></v>
-<v t="yen.20161121224943.1" a="E"><vh>SVGChordV2_2</vh>
+<v t="yen.20161121224943.1"><vh>SVGChordV2_2</vh>
 <v t="yen.20161121224943.2"><vh>example</vh></v>
 <v t="yen.20161121231423.1"><vh>ChordsDefs.xml</vh></v>
 <v t="yen.20161121232111.1"><vh>genchord.py</vh></v>
 </v>
+<v t="leo.20161223091801.1"><vh>電腦初學</vh></v>
 </v>
 <v t="leo.20161209124518.1" a="E"><vh>W13 問題</vh>
 <v t="leo.20161209124540.1" a="E"><vh>@path ./../plugin/liquid_tags/test_data/content/</vh>
@@ -953,7 +954,7 @@ class HTTPServerV6(http.server.HTTPServer):
 def domake():
     # build directory
     os.chdir("./../")
-    ipv6_address = '2001:288:6004:17:3004::808'
+    ipv6_address = '::1'
     server_address = (ipv6_address, 6443)
     #httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
     httpd = HTTPServerV6(server_address, http.server.SimpleHTTPRequestHandler)
@@ -970,6 +971,7 @@ make = threading.Thread(target=domake)
 make.start()</t>
 <t tx="leo.20161209124518.1"></t>
 <t tx="leo.20161209124540.1"></t>
+<t tx="leo.20161223091801.1">http://lnpcd.blogspot.tw/2012/09/00.html</t>
 <t tx="yen.20161105093739.1">@language python
 import os
 import subprocess
