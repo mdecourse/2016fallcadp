@@ -661,8 +661,11 @@ plt.show()
 &lt;p&gt;電腦輔助設計實習甲班成員連結:&lt;/p&gt;
 &lt;!-- 導入 Brython 標準程式庫 --&gt;
 
+&lt;!-- &lt;script type="text/javascript" 
+    src="https://cdn.rawgit.com/brython-dev/brython/master/www/src/brython_dist.js"&gt; --&gt;
+
 &lt;script type="text/javascript" 
-    src="https://cdn.rawgit.com/brython-dev/brython/master/www/src/brython_dist.js"&gt;
+    src="https://cdn.rawgit.com/brython-dev/brython/3.2.9/www/src/brython_dist.js"&gt;
 &lt;/script&gt;
 
 &lt;!-- 啟動 Brython --&gt;
