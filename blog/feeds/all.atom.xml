@@ -897,4 +897,6 @@ for i in range(len(result)):
         str(gmember[j])+"&amp;lt;/a&amp;gt; ")
     print("&amp;lt;br /&amp;gt;")
     gno = gno + 1
-&lt;/pre&gt;</summary><category term="使用導引"></category><category term="創造力"></category><category term="表達能力"></category><category term="協同設計"></category></entry></feed>
+&lt;/pre&gt;
+
+&lt;p&gt;後記: 因為目前 (2016.12.29) 的 Brython 最新版 3.3.0 已經更改 Brython 安裝與連結方式, 因此本網頁中的程式改用 3.2.9 版&lt;/p&gt;</summary><category term="使用導引"></category><category term="創造力"></category><category term="表達能力"></category><category term="協同設計"></category></entry></feed>
