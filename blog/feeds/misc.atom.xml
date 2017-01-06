@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2016-12-09T15:00:00+08:00</updated><entry><title>利用 Python 程式將 docx 轉為 pdf</title><link href="./li-yong-python-cheng-shi-jiang-docx-zhuan-wei-pdf.html" rel="alternate"></link><published>2016-12-09T15:00:00+08:00</published><updated>2016-12-09T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-12-09:./li-yong-python-cheng-shi-jiang-docx-zhuan-wei-pdf.html</id><summary type="html">&lt;p&gt;用來學習 Onshape 的教學檔案格式為 docx, 以下使用 Windows 環境下的 Python3 程式, 自動進入各教學檔案目錄, 將 docx 轉為 pdf&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title><link href="./" rel="alternate"></link><link href="./feeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2017-01-06T12:16:00+08:00</updated><entry><title>Blue Workforce and Coppelia Robotics have merged</title><link href="./blue-workforce-and-coppelia-robotics-have-merged.html" rel="alternate"></link><published>2017-01-06T12:16:00+08:00</published><updated>2017-01-06T12:16:00+08:00</updated><author><name>yen</name></author><id>tag:,2017-01-06:./blue-workforce-and-coppelia-robotics-have-merged.html</id><summary type="html">&lt;p&gt;來自瑞士的 &lt;a href="http://www.coppeliarobotics.com/"&gt;Coppelia Robotics&lt;/a&gt; 公司已經&lt;a href="http://blueworkforce.com/uncategorized/merger-blue-workforce-acquired-coppelia-robotics-the-v-rep-company/"&gt;併入&lt;/a&gt;丹麥的 &lt;a href="http://blueworkforce.com/"&gt;Blue Workforce&lt;/a&gt; 公司.&lt;/p&gt;
+
+
+&lt;p&gt;(2017.01.04)&lt;br /&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/ERD9QlouPLI" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;(2016.05.28)&lt;br /&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/SM2t3wzk0ho" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;(2016.07.14)&lt;br /&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/JxmNZSpmrk4" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;(2016.10.10)&lt;br /&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/4NWXmyGwgpg" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;(2016.10.10)&lt;br /&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/0oOzyDPecAs" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;Blue Workforce A/S, Denmark, and Coppelia Robotics GmbH, Switzerland, have merged as of December 28th, in order to pursue a shared vision on making robotics more accessible, applicable and affordable. &lt;/p&gt;
+&lt;p&gt;The decision is the outcome of 3 years of intensified talks, idea sharing and mutual inspiration on how the highly innovative products and business models on both sides demonstrate the power to radically relax and improve how robotics can be conceived by both, low- and high-end users. &lt;/p&gt;
+&lt;p&gt;It became clear that a merged technology assert pool unbound, was the right way to proceed with the vision we shared. &lt;/p&gt;
+&lt;p&gt;Both founders, Marc Freese from Coppelia Robotics GmbH, and Preben Hjornet from Blue Workforce A/S are experienced Roboticists with a long track record of bringing innovations into the global robot industry. &lt;/p&gt;
+&lt;p&gt;“to me it became clear, that the V-REP simulation tool was a 'one of a kind' and the only one which gave me confidence that I could model behavior close enough to be valid enough to give guarantees on the performance shown”. &lt;/p&gt;
+&lt;p&gt;Preben continues “Once I got into direct contact with the inventor and founder of V-REP, Marc Freese, things began to move fast forward between us, on how we could merge the robotics platform of Ragnar Robotics and V-REP. &lt;/p&gt;
+&lt;p&gt;Beyond the superior simulation capability, we have proven that the two together could add even more value to us and our customers as an emulation and real-time VR tracking tool. &lt;/p&gt;
+&lt;p&gt;This has internally been a central part of our test, optimization and validation processes developing the Ragnar robotics”. &lt;/p&gt;
+&lt;p&gt;Marc states “It is a move that was meant to happen, and I’m excited about joining with Blue Workforce, and the extended opportunities it brings“.&lt;/p&gt;
+&lt;p&gt;BlueReality - Robotics system configuration purely by drag-and-drop, and configuration - no programming needed at all.&lt;/p&gt;
+&lt;p&gt;The first joined contribution to the robotics industry, will be – BlueReality™ - a V-REP powered, ease-of-use, pure-configuration, robotics design, performance and feasibility study simulation VR tool-box. &lt;/p&gt;
+&lt;p&gt;“We have been able to frame this so anyone with the capability to play an online computer game, also would be able to setup, run and optimize their own ideas on how to solve a robotics system” says Preben Hjornet. &lt;/p&gt;
+&lt;p&gt;He adds “.. and this is just the beginning, we will shortly announce the BlueReality™ including a large pool of tutorials, and real world industrial production and packaging line scenes. &lt;/p&gt;
+&lt;p&gt;BlueReality™ will radically change how you and your peers will be able to cooperate in an open framework community of open material handling robotics to down cost and short path the present over-complicated, expensive and slow path to get a robot system defined, validated, manufactured, shipped, deployed and maintained. &lt;/p&gt;
+&lt;p&gt;Think about how 3D printing looked 10 years ago, and observe how the 3D printing hacker and maker community disrupted this industry. Together we will be able to lead a similar transition for the industrial robotics consumption”.&lt;/p&gt;
+&lt;p&gt;Blue Workforce A/S is now the owner of Coppelia Robotics GmbH, as Marc Freese the founder and prior owner of Coppelia Robotics GmbH, has converted his ownership to a common stock shareholder position in Blue Workforce A/S. &lt;/p&gt;
+&lt;p&gt;Marc Freese stays on as the general manager for Coppelia Robotics, and takes on a board position in Blue Workforce, together with CEO Blue Workforce Preben Hjørnet, VP Vestas Technology Carl Erik Skjølstrup and Chairwoman Charlotte Hjornet.&lt;/p&gt;</summary><category term="V-rep"></category></entry><entry><title>利用 Python 程式將 docx 轉為 pdf</title><link href="./li-yong-python-cheng-shi-jiang-docx-zhuan-wei-pdf.html" rel="alternate"></link><published>2016-12-09T15:00:00+08:00</published><updated>2016-12-09T15:00:00+08:00</updated><author><name>yen</name></author><id>tag:,2016-12-09:./li-yong-python-cheng-shi-jiang-docx-zhuan-wei-pdf.html</id><summary type="html">&lt;p&gt;用來學習 Onshape 的教學檔案格式為 docx, 以下使用 Windows 環境下的 Python3 程式, 自動進入各教學檔案目錄, 將 docx 轉為 pdf&lt;/p&gt;
 
 
 &lt;p&gt;首先必須以 pip install comtypes 安裝 comtypes 模組, 然後以 SciTE, 在教學檔案目錄中, 利用以下程式碼建立 docx2pdf.py 後執行, 即可將所有 56 個 docx 轉出 pdf 檔案.&lt;/p&gt;
