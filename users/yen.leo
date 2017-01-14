@@ -167,10 +167,23 @@
 <v t="yen.20161121232111.1"><vh>genchord.py</vh></v>
 </v>
 </v>
-<v t="leo.20161209124518.1" a="E"><vh>W13 問題</vh>
+<v t="leo.20161209124518.1"><vh>W13 問題</vh>
 <v t="leo.20161209124540.1" a="E"><vh>@path ./../plugin/liquid_tags/test_data/content/</vh>
 <v t="leo.20161209124741.1"><vh>@edit test-ipython-notebook-nbformat3.md</vh></v>
 </v>
+</v>
+<v t="yen.20161217084003.1" a="E"><vh>W15 平面機構模擬</vh>
+<v t="yen.20161217095548.1"><vh>平面連桿機構</vh></v>
+<v t="yen.20161217101003.1"><vh>Brython 四連桿</vh></v>
+<v t="yen.20161217085158.1"><vh>pybean.py</vh>
+<v t="yen.20161217085219.1"><vh>pybean 範例一</vh></v>
+<v t="yen.20161217085322.1"><vh>pybean 範例二</vh></v>
+</v>
+<v t="yen.20161217085518.1"><vh>建立 binary STL 零件檔案</vh></v>
+<v t="yen.20161217090802.1"><vh>物件導向 fourbar</vh>
+<v t="yen.20161217090828.1"><vh>tkinter gui 程式</vh></v>
+</v>
+<v t="yen.20161217095307.1"><vh>以 COM 控制 Solid Edge</vh></v>
 </v>
 </vnodes>
 <tnodes>
@@ -15729,5 +15742,1824 @@ def main(argv = None):
 
 if __name__ == "__main__":
     sys.exit(main())</t>
+<t tx="yen.20161217084003.1">#要注意 javascript 轉 python 語法差異
+ 
+#document.getElementById -&gt; doc[]
+#module Math -&gt; math
+#Math.PI -&gt; math.pi
+#abs -&gt; fabs
+#array 可用 list代替
+ 
+import math
+import time
+'''
+這兩行是 Brython 特有, 在近端運算時蓋掉
+from browser import doc
+import browser.timer
+'''
+ 
+class Coord(object):
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+ 
+    def __sub__(self,other):
+        # This allows you to substract vectors
+        return Coord(self.x-other.x,self.y-other.y)
+ 
+    def __repr__(self):
+        # Used to get human readable coordinates when printing
+        return "Coord(%f,%f)"%(self.x,self.y)
+ 
+    def length(self):
+        # Returns the length of the vector
+        return math.sqrt(self.x**2 + self.y**2)
+ 
+    def angle(self):
+        # Returns the vector's angle
+        return math.atan2(self.y,self.x)
+ 
+def normalize(coord):
+    return Coord(
+        coord.x/coord.length(),
+        coord.y/coord.length()
+        )
+ 
+def perpendicular(coord):
+    # Shifts the angle by pi/2 and calculate the coordinates
+    # using the original vector length
+    return Coord(
+        coord.length()*math.cos(coord.angle()+math.pi/2),
+        coord.length()*math.sin(coord.angle()+math.pi/2)
+        )
+ 
+# 點類別
+class Point(object):
+    # 起始方法
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+         
+    # 繪製方法
+    '''
+    繪圖方法也是 Brython 特有, 先蓋掉
+    def drawMe(self, g, r):
+        self.g = g
+        self.r = r
+        self.g.save()
+        self.g.moveTo(self.x,self.y)
+        self.g.beginPath()
+        # 根據 r 半徑繪製一個圓代表點的所在位置
+        self.g.arc(self.x, self.y, self.r, 0, 2*math.pi, true)
+        self.g.moveTo(self.x,self.y)
+        self.g.lineTo(self.x+self.r, self.y)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x-self.r, self.y)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x, self.y+self.r)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x, self.y-self.r)
+        self.g.restore()
+        self.g.stroke()
+    '''
+ 
+    # 加入 Eq 方法
+    def Eq(self, pt):
+        self.x = pt.x
+        self.y = pt.y
+ 
+    # 加入 setPoint 方法
+    def setPoint(self, px, py):
+        self.x = px
+        self.y = py
+ 
+    # 加上 distance(pt) 方法, 計算點到 pt 的距離
+    def distance(self, pt):
+        self.pt = pt
+        x = self.x - self.pt.x
+        y = self.y - self.pt.y
+        return math.sqrt(x * x + y * y)
+     
+    # 利用文字標示點的座標位置
+    def tag(self, g):
+        self.g = g
+        self.g.beginPath()
+        self.g.fillText("%d, %d"%(self.x, self.y),self.x, self.y)
+        self.g.stroke()
+ 
+ 
+# Line 類別物件
+class Line(object):
+ 
+    # 起始方法
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        # 直線的第一點, 設為線尾
+        self.Tail = self.p1
+        # 直線組成的第二點, 設為線頭
+        self.Head = self.p2
+        # 直線的長度屬性
+        self.length = math.sqrt(math.pow(self.p2.x-self.p1.x, 2)+math.pow(self.p2.y-self.p1.y,2))
+ 
+    # setPP 以指定頭尾座標點來定義直線
+    def setPP(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        self.Tail = self.p1
+        self.Head = self.p2
+        self.length = math.sqrt(math.pow(self.p2.x-self.p1.x, 2)+math.pow(self.p2.y-self.p1.y,2))
+ 
+    # setRT 方法 for Line, 應該已經確定 Tail 點, 然後以 r, t 作為設定 Head 的參考
+    def setRT(self, r, t):
+        self.r = r
+        self.t = t
+        x = self.r * math.cos(self.t)
+        y = self.r * math.sin(self.t)
+        self.Tail.Eq(self.p1)
+        self.Head.setPoint(self.Tail.x + x,self.Tail.y + y)
+ 
+    # getR 方法 for Line
+    def getR(self):
+        # x 分量與 y 分量
+        x = self.p1.x - self.p2.x
+        y = self.p1.y - self.p2.y
+        return math.sqrt(x * x + y * y)
+ 
+    # 根據定義 atan2(y,x), 表示 (x,y) 與 正 x 軸之間的夾角, 介於 pi 與 -pi 間
+    def getT(self):
+        x = self.p2.x - self.p1.x
+        y = self.p2.y - self.p1.y
+        if (math.fabs(x) &lt; math.pow(10,-100)):
+            if(y &lt; 0.0):
+                return (-math.pi/2)
+            else:
+                return (math.pi/2)
+        else:
+            return math.atan2(y, x)
+ 
+    # setTail 方法 for Line
+    def setTail(self, pt):
+        self.pt = pt
+        self.Tail.Eq(pt)
+        self.Head.setPoint(self.pt.x + self.x, self.pt.y + self.y)
+ 
+    # getHead 方法 for Line
+    def getHead(self):
+        return self.Head
+ 
+    def getTail(self):
+        return self.Tail
+ 
+    ''' Brython 特有, 先蓋掉
+    def drawMe(self, g):
+        self.g = g
+        self.g.beginPath()
+        self.g.moveTo(self.p1.x,self.p1.y)
+        self.g.lineTo(self.p2.x,self.p2.y)
+        self.g.stroke()
+    '''
+    def test(self):
+        return ("this is pure test to Inherit")
+ 
+ 
+class Link(Line):
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        self.length = math.sqrt(math.pow((self.p2.x - self.p1.x), 2) + math.pow((self.p2.y - self.p1.y), 2))
+     
+    ''' 蓋掉 Brython 特有繪圖方法
+    #g context
+    def drawMe(self, g):
+        self.g = g
+        hole = 5
+        radius = 10
+        length = self.getR()
+        # alert(length)
+        # 儲存先前的繪圖狀態
+        self.g.save()
+        self.g.translate(self.p1.x,self.p1.y)
+        #alert(str(self.p1.x)+","+str(self.p1.y))
+        #self.g.rotate(-((math.pi/2)-self.getT()))
+        self.g.rotate(-math.pi*0.5 + self.getT())
+        #alert(str(self.getT()))
+        #self.g.rotate(10*math.pi/180)
+        #this.g.rotate(-(Math.PI/2-this.getT()));
+        # 必須配合畫在 y 軸上的 Link, 進行座標轉換, 也可以改為畫在 x 軸上...
+        self.g.beginPath()
+        self.g.moveTo(0,0)
+        self.g.arc(0, 0, hole, 0, 2*math.pi, true)
+        self.g.stroke()
+        self.g.moveTo(0,length)
+        self.g.beginPath()
+        self.g.arc(0,length, hole, 0, 2*math.pi, true)
+        self.g.stroke()
+        self.g.moveTo(0,0)
+        self.g.beginPath()
+        self.g.arc(0,0, radius, 0, math.pi, true)
+        self.g.moveTo(0+radius,0)
+        self.g.lineTo(0+radius,0+length)
+        self.g.stroke()
+        self.g.moveTo(0,0+length)
+        self.g.beginPath()
+        self.g.arc(0, 0+length, radius, math.pi, 0, true)
+        self.g.moveTo(0-radius,0+length)
+        self.g.lineTo(0-radius,0)
+        self.g.stroke()
+        self.g.restore()
+         
+        self.g.beginPath()
+        self.g.fillStyle = "red"
+        self.g.font = "bold 18px sans-serif"
+        self.g.fillText("%d, %d"%(self.p2.x, self.p2.y),self.p2.x, self.p2.y)
+        self.g.stroke()
+        self.g.restore()
+    '''
+ 
+class Triangle(object):
+    def __init__(self, p1, p2, p3):
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+ 
+    def getLenp3(self):
+        p1 = self.p1
+        ret = p1.distance(self.p2)
+        return ret
+ 
+    def getLenp1(self):
+        p2 = self.p2
+        ret = p2.distance(self.p3)
+        return ret
+ 
+    def getLenp2(self):
+        p1 = self.p1
+        ret = p1.distance(self.p3)
+        return ret
+ 
+    # 角度
+    def getAp1(self):
+        ret = math.acos(((self.getLenp2() * self.getLenp2() + self.getLenp3() * self.getLenp3()) - self.getLenp1() * self.getLenp1()) / (2* self.getLenp2() * self.getLenp3()))
+        return ret
+ 
+    #
+    def getAp2(self):
+        ret =math.acos(((self.getLenp1() * self.getLenp1() + self.getLenp3() * self.getLenp3()) - self.getLenp2() * self.getLenp2()) / (2* self.getLenp1() * self.getLenp3()))
+        return ret
+ 
+    def getAp3(self):
+        ret = math.acos(((self.getLenp1() * self.getLenp1() + self.getLenp2() * self.getLenp2()) - self.getLenp3() * self.getLenp3()) / (2* self.getLenp1() * self.getLenp2()))
+        return ret
+ 
+    ''' 蓋掉 Brython 特有繪圖方法
+    def drawMe(self, g):
+        self.g = g
+        r = 5
+        # 繪出三個頂點
+        self.p1.drawMe(self.g,r)
+        self.p2.drawMe(self.g,r)
+        self.p3.drawMe(self.g,r)
+        line1 = Line(self.p1,self.p2)
+        line2 = Line(self.p1,self.p3)
+        line3 = Line(self.p2,self.p3)
+        # 繪出三邊線
+        line1.drawMe(self.g)
+        line2.drawMe(self.g)
+        line3.drawMe(self.g)
+    '''
+    # ends Triangle def
+    # 透過三個邊長定義三角形
+    def setSSS(self, lenp3, lenp1, lenp2):
+        self.lenp3 = lenp3
+        self.lenp1 = lenp1
+        self.lenp2 = lenp2
+        self.ap1 = math.acos(((self.lenp2 * self.lenp2 + self.lenp3 * self.lenp3) - self.lenp1 * self.lenp1) / (2* self.lenp2 * self.lenp3))
+        self.ap2 = math.acos(((self.lenp1 * self.lenp1 + self.lenp3 * self.lenp3) - self.lenp2 * self.lenp2) / (2* self.lenp1 * self.lenp3))
+        self.ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp2 * self.lenp2) - self.lenp3 * self.lenp3) / (2* self.lenp1 * self.lenp2))
+ 
+    # 透過兩個邊長與夾角定義三角形
+    def setSAS(self, lenp3, ap2, lenp1):
+        self.lenp3 = lenp3
+        self.ap2 = ap2
+        self.lenp1 = lenp1
+        self.lenp2 = math.sqrt((self.lenp3 * self.lenp3 + self.lenp1 * self.lenp1) - 2* self.lenp3 * self.lenp1 * math.cos(self.ap2))
+        #等於 SSS(AB, BC, CA)
+ 
+    def setSaSS(self, lenp2, lenp3, lenp1):
+        self.lenp2 = lenp2
+        self.lenp3 = lenp3
+        self.lenp1 = lenp1
+        if(self.lenp1 &gt; (self.lenp2 + self.lenp3)):
+        #&lt;CAB 夾角為 180 度, 三點共線且 A 介於 BC 之間
+            ret = math.pi
+        else :
+            # &lt;CAB 夾角為 0, 三點共線且 A 不在 BC 之間
+            if((self.lenp1 &lt; (self.lenp2 - self.lenp3)) or (self.lenp1 &lt; (self.lenp3 - self.lenp2))):
+                ret = 0.0
+            else :
+            # 透過餘絃定理求出夾角 &lt;CAB 
+                ret = math.acos(((self.lenp2 * self.lenp2 + self.lenp3 * self.lenp3) - self.lenp1 * self.lenp1) / (2 * self.lenp2 * self.lenp3))
+        return ret
+ 
+    # 取得三角形的三個邊長值
+    def getSSS(self):
+        temp = []
+        temp.append( self.getLenp1() )
+        temp.append( self.getLenp2() )
+        temp.append( self.getLenp3() )
+        return temp
+ 
+    # 取得三角形的三個角度值
+    def getAAA(self):
+        temp = []
+        temp.append( self.getAp1() )
+        temp.append( self.getAp2() )
+        temp.append( self.getAp3() )
+        return temp
+ 
+    # 取得三角形的三個角度與三個邊長
+    def getASASAS(self):
+        temp = []
+        temp.append(self.getAp1())
+        temp.append(self.getLenp1())
+        temp.append(self.getAp2())
+        temp.append(self.getLenp2())
+        temp.append(self.getAp3())
+        temp.append(self.getLenp3())
+        return temp
+    #2P 2L return mid P
+    def setPPSS(self, p1, p3, lenp1, lenp3):
+        temp = []
+        self.p1 = p1
+        self.p3 = p3
+        self.lenp1 = lenp1
+        self.lenp3 = lenp3
+ 
+        #bp3 is the angle beside p3 point, cp3 is the angle for line23, p2 is the output
+        line31 = Line(p3, p1)
+        self.lenp2 = line31.getR()
+        #self.lenp2 = self.p3.distance(self.p1)
+        #這裡是求角3
+        ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp2 * self.lenp2) - self.lenp3 * self.lenp3) / (2 * self.lenp1 * self.lenp2))
+        #ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp3 * self.lenp3) - self.lenp2 * self.lenp2) / (2 * self.lenp1 * self.lenp3))
+        bp3 = line31.getT()
+        cp3 = bp3 - ap3
+        temp.append(p3.x + self.lenp1*math.cos(cp3))#p2.x
+        temp.append(p3.y + self.lenp1*math.sin(cp3))#p2.y
+        return temp
+ 
+def tag(g, p):
+    None
+ 
+midpt = Point(0, 0)
+tippt = Point(0, 0)
+contour = []
+''' 蓋掉 Brython 特有方法
+# 執行繪圖流程, 注意 x, y 為 global variables
+def draw():
+    global theta, midpt, oldpt
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    line1.drawMe(context)
+    print(line1.p2.x, line1.p2.y)
+    #line2.drawMe(context)
+    #line3.drawMe(context)
+    #triangle1.drawMe(context)
+    #triangle2.drawMe(context)
+    theta += dx
+    p2.x = p1.x + line1.length*math.cos(theta*degree)
+    p2.y = p1.y - line1.length*math.sin(theta*degree)
+    p3.x, p3.y = triangle2.setPPSS(p2,p4,link2_len,link3_len)
+    # 計算垂直單位向量
+    a = Coord(p3.x, p3.y)
+    b = Coord(p2.x, p2.y)
+    normal = perpendicular(normalize(a-b))
+    midpt.x = (p2.x + p3.x)/2
+    midpt.y = (p2.y + p3.y)/2
+    tippt.x = midpt.x + 150*normal.x
+    tippt.y = midpt.y + 150*normal.y
+    if theta &lt; 360:
+        contour.append((tippt.x, tippt.y))
+    context.beginPath()
+    context.moveTo(midpt.x, midpt.y)
+    context.lineTo(tippt.x, tippt.y)
+    # 利用 fillRect 繪製一個長寬各 1 單位的正方形
+    for i in range(len(contour)):
+        context.fillRect(contour[i][0], contour[i][1], 1, 1)
+    context.stroke()
+    p1.tag(context)
+'''
+# 以上為相關函式物件的定義區
+# 全域變數
+# 幾何位置輸入變數
+x=10
+y=10
+r=10
+ 
+# 畫布與繪圖內容
+# 其他輸入變數
+theta = 0
+degree = math.pi/180.0
+dx = 2
+dy = 4
+ 
+#set p1.p2.p3.p4 position
+p1 =  Point(150,100)
+p2 =  Point(150,200)
+p3 =  Point(300,300)
+p4 =  Point(350,100)
+ 
+#accord position create link
+line1 =  Link(p1,p2)
+line2 =  Link(p2,p3)
+line3 =  Link(p3,p4)
+line4 =  Link(p1,p4)
+line5 =  Link(p2,p4)
+ 
+link2_len = p2.distance(p3)
+link3_len = p3.distance(p4)
+ 
+#link2_len = line1.getR()
+#link3_len = line3.getR()
+#alert(str(link2_len)+','+str(link3_len))
+ 
+triangle1 =  Triangle(p1,p2,p4)
+triangle2 =  Triangle(p2,p3,p4)
+ 
+def simulate():
+    global theta, midpt, oldpt
+    #context.clearRect(0, 0, canvas.width, canvas.height)
+    #line1.drawMe(context)
+    #print("(",round(line1.p2.x, 2),",", round(line1.p2.y, 2), ")")
+    #line2.drawMe(context)
+    #line3.drawMe(context)
+    #triangle1.drawMe(context)
+    #triangle2.drawMe(context)
+    theta += dx
+    p2.x = p1.x + line1.length*math.cos(theta*degree)
+    p2.y = p1.y - line1.length*math.sin(theta*degree)
+    p3.x, p3.y = triangle2.setPPSS(p2,p4,link2_len,link3_len)
+    # 計算垂直單位向量
+    a = Coord(p3.x, p3.y)
+    b = Coord(p2.x, p2.y)
+    normal = perpendicular(normalize(a-b))
+    midpt.x = (p2.x + p3.x)/2
+    midpt.y = (p2.y + p3.y)/2
+    tippt.x = midpt.x + 150*normal.x
+    tippt.y = midpt.y + 150*normal.y
+    print(round(tippt.x, 2), round(tippt.y, 2))
+    if theta &lt; 360:
+        contour.append((round(tippt.x, 2), round(tippt.y, 2)))
+    '''' Brython 繪圖暫時蓋去
+    context.beginPath()
+    context.moveTo(midpt.x, midpt.y)
+    context.lineTo(tippt.x, tippt.y)
+    '''
+    # 利用 fillRect 繪製一個長寬各 1 單位的正方形
+    ''' Brython 繪圖暫時蓋去
+    for i in range(len(contour)):
+        context.fillRect(contour[i][0], contour[i][1], 1, 1)
+    context.stroke()
+    p1.tag(context)
+    '''
+for i in range(180):
+    simulate()
+print(contour)
+# 視窗載入時執行內容
+# 繪圖畫布設定
+'''
+canvas = doc["plotarea"]
+context = canvas.getContext("2d")
+ 
+# 座標轉換, 移動 canvas.height 並且 y 座標變號, 也就是將原點座標移到畫面左下角
+context.translate(0,canvas.height)
+context.scale(1,-1)
+ 
+#以間隔 10 micro seconds 重複呼叫 draw()
+#time.set_interval(draw,20)
+browser.timer.set_interval(draw,10)
+'''</t>
+<t tx="yen.20161217085158.1">import sqlite3
+from pkg_resources import parse_version
+ 
+__version__ = "0.2.1"
+__author__ = "Mickael Desfrenes"
+__email__ = "desfrenes@gmail.com"
+ 
+ 
+class SQLiteWriter(object):
+ 
+    """
+    In frozen mode (the default), the writer will not alter db schema.
+    Just add frozen=False to enable column creation (or just add False
+    as second parameter):
+ 
+    query_writer = SQLiteWriter(":memory:", False)
+    """
+    def __init__(self, db_path=":memory:", frozen=True):
+        self.db = sqlite3.connect(db_path)
+        self.db.isolation_level = None
+        self.db.row_factory = sqlite3.Row
+        self.frozen = frozen
+        self.cursor = self.db.cursor()
+        self.cursor.execute("PRAGMA foreign_keys=ON;")
+        self.cursor.execute('PRAGMA encoding = "UTF-8";')
+        self.cursor.execute('BEGIN;')
+    def __del__(self):
+        self.db.close()
+ 
+    def replace(self, bean):
+        keys = []
+        values = []
+        write_operation = "replace"
+        if "id" not in bean.__dict__:
+            write_operation = "insert"
+            keys.append("id")
+            values.append(None)
+        self.__create_table(bean.__class__.__name__)
+        columns = self.__get_columns(bean.__class__.__name__)
+        for key in bean.__dict__:
+            keys.append(key)
+            if key not in columns:
+                self.__create_column(bean.__class__.__name__, key,
+                        type(bean.__dict__[key]))
+            values.append(bean.__dict__[key])
+        sql  = write_operation + " into " + bean.__class__.__name__ + "("
+        sql += ",".join(keys) + ") values ("
+        sql += ",".join(["?" for i in keys])  +  ")"
+        self.cursor.execute(sql, values)
+        if write_operation == "insert":
+            bean.id = self.cursor.lastrowid
+        return bean.id
+ 
+    def __create_column(self, table, column, sqltype):
+        if self.frozen:
+            return
+        if sqltype in [float, int, bool]:
+            sqltype = "NUMERIC"
+        else:
+            sqltype = "TEXT"
+        sql = "alter table " + table + " add " + column + " " + sqltype    
+        self.cursor.execute(sql)
+ 
+    def __get_columns(self, table):
+        columns = []
+        if self.frozen:
+            return columns
+        self.cursor.execute("PRAGMA table_info(" + table  + ")")
+        for row in self.cursor:
+            columns.append(row["name"])
+        return columns
+ 
+    def __create_table(self, table):
+        if self.frozen:
+            return
+        sql = "create table if not exists " + table + "(id INTEGER PRIMARY KEY AUTOINCREMENT)"
+        self.cursor.execute(sql)
+ 
+    def get_rows(self, table_name, sql = "1", replace = None):
+        if replace is None : replace = []
+        self.__create_table(table_name)
+        sql = "SELECT * FROM " + table_name + " WHERE " + sql
+        try:
+            self.cursor.execute(sql, replace)
+            for row in self.cursor:
+                yield row
+        except sqlite3.OperationalError:
+            return
+    
+    def get_count(self, table_name, sql="1", replace = None):
+        if replace is None : replace = []
+        self.__create_table(table_name)
+        sql = "SELECT count(*) AS cnt FROM " + table_name + " WHERE " + sql
+        try:
+            self.cursor.execute(sql, replace)
+        except sqlite3.OperationalError:
+            return 0
+        for row in self.cursor:
+            return row["cnt"]
+ 
+    def delete(self, bean):
+        self.__create_table(bean.__class__.__name__)
+        sql = "delete from " + bean.__class__.__name__ + " where id=?"
+        self.cursor.execute(sql,[bean.id])
+     
+    def link(self, bean_a, bean_b):
+        self.replace(bean_a)
+        self.replace(bean_b)
+        table_a = bean_a.__class__.__name__
+        table_b = bean_b.__class__.__name__
+        assoc_table = self.__create_assoc_table(table_a, table_b)
+        sql = "replace into " + assoc_table + "(" + table_a + "_id," + table_b
+        sql += "_id) values(?,?)"
+        self.cursor.execute(sql,
+                [bean_a.id, bean_b.id])
+     
+    def unlink(self, bean_a, bean_b):
+        table_a = bean_a.__class__.__name__
+        table_b = bean_b.__class__.__name__
+        assoc_table = self.__create_assoc_table(table_a, table_b)
+        sql = "delete from " + assoc_table + " where " + table_a
+        sql += "_id=? and " + table_b + "_id=?"
+        self.cursor.execute(sql,
+                [bean_a.id, bean_b.id])
+     
+    def get_linked_rows(self, bean, table_name):
+        bean_table = bean.__class__.__name__
+        assoc_table = self.__create_assoc_table(bean_table, table_name)
+        sql = "select t.* from " + table_name + " t inner join " + assoc_table 
+        sql += " a on a." + table_name + "_id = t.id where a."
+        sql += bean_table + "_id=?"
+        self.cursor.execute(sql,[bean.id])
+        for row in self.cursor:
+            yield row
+ 
+    def __create_assoc_table(self, table_a, table_b):
+        assoc_table = "_".join(sorted([table_a, table_b]))
+        if not self.frozen:
+            sql = "create table if not exists " + assoc_table + "("
+            sql+= table_a + "_id NOT NULL REFERENCES " + table_a + "(id) ON DELETE cascade,"
+            sql+= table_b + "_id NOT NULL REFERENCES " + table_b + "(id) ON DELETE cascade,"
+            sql+= " PRIMARY KEY (" + table_a + "_id," + table_b + "_id));"
+            self.cursor.execute(sql)
+            # no real support for foreign keys until sqlite3 v3.6.19
+            # so here's the hack
+            if cmp(parse_version(sqlite3.sqlite_version),parse_version("3.6.19")) &lt; 0:
+                sql = "create trigger if not exists fk_" + table_a + "_" + assoc_table
+                sql+= " before delete on " + table_a
+                sql+= " for each row begin delete from " + assoc_table + " where " + table_a + "_id = OLD.id;end;"
+                self.cursor.execute(sql)
+                sql = "create trigger if not exists fk_" + table_b + "_" + assoc_table
+                sql+= " before delete on " + table_b
+                sql+= " for each row begin delete from " + assoc_table + " where " + table_b + "_id = OLD.id;end;"
+                self.cursor.execute(sql)
+        return assoc_table
+ 
+    def delete_all(self, table_name, sql = "1", replace = None):
+        if replace is None : replace = []
+        self.__create_table(table_name)
+        sql = "DELETE FROM " + table_name + " WHERE " + sql
+        try:
+            self.cursor.execute(sql, replace)
+            return True
+        except sqlite3.OperationalError:
+            return False
+ 
+    def commit(self):
+        self.db.commit()
+ 
+ 
+ 
+class Store(object):
+    """
+    A SQL writer should be passed to the constructor:
+ 
+    beans_save = Store(SQLiteWriter(":memory"), frozen=False)
+    """
+    def __init__(self, SQLWriter):
+        self.writer = SQLWriter 
+     
+    def new(self, table_name):
+        new_object = type(table_name,(object,),{})()
+        return new_object
+ 
+    def save(self, bean):
+        self.writer.replace(bean)
+     
+    def load(self, table_name, id):
+        for row in self.writer.get_rows(table_name, "id=?", [id]):
+            return self.row_to_object(table_name, row)
+ 
+    def count(self, table_name, sql = "1", replace=None):
+        return self.writer.get_count(table_name, sql, replace if replace is not None else [])
+ 
+    def find(self, table_name, sql = "1", replace=None):
+        for row in self.writer.get_rows(table_name, sql, replace if replace is not None else []):
+            yield self.row_to_object(table_name, row)
+ 
+    def find_one(self, table_name, sql = "1", replace=None):
+        try:
+            # Yen 改為 Python 3 相容
+            return next(self.find(table_name, sql, replace))
+        except StopIteration:
+            return None
+ 
+    def delete(self, bean):
+        self.writer.delete(bean)
+     
+    def link(self, bean_a, bean_b):
+        self.writer.link(bean_a, bean_b)
+     
+    def unlink(self, bean_a, bean_b):
+        self.writer.unlink(bean_a, bean_b)
+     
+    def get_linked(self, bean, table_name):
+        for row in self.writer.get_linked_rows(bean, table_name):
+            yield self.row_to_object(table_name, row)
+ 
+    def delete_all(self, table_name, sql = "1", replace=None):
+        return self.writer.delete_all(table_name, sql, replace if replace is not None else [])
+ 
+    def row_to_object(self, table_name, row):
+        new_object = type(table_name,(object,),{})()
+        for key in row.keys():
+            new_object.__dict__[key] = row[key]
+        return new_object
+ 
+    def commit(self):
+        self.writer.commit()</t>
+<t tx="yen.20161217085219.1">#encoding: utf-8
+from pybean import Store, SQLiteWriter
+# 將資料存入記憶體中, frozen=False 表示可以動態新增表格與欄位
+#library = Store(SQLiteWriter(":memory:", frozen=False))
+# 將資料存入 sqlite 資料庫檔案中, frozen=False 表示可以動態新增表格與欄位
+# 設定 frozen=False 表示可以 create tables and columns on the fly
+library = Store(SQLiteWriter("database.sqlite", frozen=False))
+# 動態建立 book 資料表
+book = library.new("book")
+# 動態建立 title 欄位
+book.title = "如何使用 Pybean 儲存資料"
+# 動態建立 author 欄位
+book.author = "Pybean 作者群"
+# 儲存資料表內容
+library.save(book)
+library.commit()
+# 利用 find 方法搜尋資料表中的資料
+# 找出 book 資料表中 author 為 "Pybean 作者群" 的資料
+for book in library.find("book","author like ?",["Pybean 作者群"]):
+        # 列印資料表中的 title 欄位
+        print (book.title)
+# 搜尋資料的筆數
+資料筆數 = library.count("book")
+搜尋資料筆數 = library.count("book", "author like ?", ["Pybean 作者群"])
+# 1 代表　true:沒有特別加入其他篩選條件, 排序內定為 asc, 反向排為 desc
+搜尋資料筆數 = library.count("book", "1 order by author")
+# 以 find_one 找出所要的一筆資料
+一筆資料 = library.find_one("book","author=?",["Pybean 作者群"])
+# 針對所搜尋出的一筆資料進行修改
+一筆資料.author = "修改後的資料"
+# 將修改後的一筆資料存入資料表中
+library.save(一筆資料)
+library.commit()
+# 假如要刪除所找出的一筆資料, 使用 delete
+#libry.delete(一筆資料)
+print(資料筆數)
+print(搜尋資料筆數)
+print(一筆資料.title,"_",一筆資料.author)
+   
+# 列出目前的資料庫內容
+for book in library.find("book","1"):
+        # 列印資料表中的 title 欄位
+        print (book.title, book.author)
+   
+# 刪除資料表中的所有資料
+#library.delete(book)</t>
+<t tx="yen.20161217085322.1">#encoding: utf-8
+from pybean import Store, SQLiteWriter
+# 將資料存入記憶體中, frozen=False 表示可以動態新增表格與欄位
+#library = Store(SQLiteWriter(":memory:", frozen=False))
+# 將資料存入 sqlite 資料庫檔案中, frozen=False 表示可以動態新增表格與欄位
+# 設定 frozen=False 表示可以 create tables and columns on the fly
+library = Store(SQLiteWriter("material.sqlite", frozen=False))
+# 動態建立 material 資料表
+mat = library.new("material")
+# 動態建立 title 欄位
+mat.title = "材料 103"
+# 動態建立 no 欄位
+mat.no = "mat103"
+# 材料強度欄位
+mat.strength = "1234"
+# 儲存資料表內容
+library.save(mat)
+library.commit()
+# 利用 find 方法搜尋資料表中的資料
+# 找出 material 資料表中 title 內容有 "材料" 關鍵字的資料
+for mat in library.find("material","title like ?",["材料"]):
+        # 列印資料表中的 title 欄位
+        print (mat.title)
+# 搜尋資料的筆數
+資料筆數 = library.count("material")
+搜尋資料筆數 = library.count("material", "no like ?", ["103"])
+# 1 代表　true:沒有特別加入其他篩選條件, 排序內定為 asc, 反向排為 desc
+搜尋資料筆數 = library.count("material", "1 order by title")
+# 以 find_one 找出所要的一筆資料
+一筆資料 = library.find_one("material","title=?",["材料 103"])
+# 針對所搜尋出的一筆資料進行修改
+一筆資料.title = "修改後的材料名稱"
+# 將修改後的一筆資料存入資料表中
+library.save(一筆資料)
+library.commit()
+# 假如要刪除所找出的一筆資料, 使用 delete
+#libry.delete(一筆資料)
+print(資料筆數)
+print(搜尋資料筆數)
+print(一筆資料.title,"_",一筆資料.no)
+    
+# 列出目前的資料庫內容
+for mat in library.find("material","1"):
+        # 列印資料表中的 title 欄位
+        print (mat.title, mat.no)
+    
+# 刪除資料表中的所有資料
+#library.delete(mat)</t>
+<t tx="yen.20161217085518.1">#coding: utf-8
+import struct
+     
+class StLFacet:
+    def __init__(self, normal, v1, v2, v3, att_bc=0):
+        self.coords = [normal, v1, v2, v3]
+        self.att_bc = att_bc
+ 
+class StL:
+    def __init__(self, header):
+        self.header = header
+        self.facets = []
+    def add_facet(self, facet):
+        self.facets.append(facet)
+    def get_binary(self):
+        # 原先 2.0 的版本
+        #out = ['%-80.80s' % self.header]
+        # 改為 Python 3.0 格式
+        # 第一行標頭的格式
+        header = ['%-80.80s' % self.header][0]
+        # 利用 bytes() 將標頭字串轉為二位元資料
+        out = [bytes(header,encoding="utf-8")]
+        # 接著則計算三角形面的數量, 並以二位元長整數格式存檔
+        out.append(struct.pack('L',len(self.facets)))
+        # 接著則依照法線向量與三個點座標的格式, 分別以浮點數格式進行資料附加
+        for f in self.facets:
+            for coord in f.coords:
+                out.append(struct.pack('3f', *coord))
+            # att_bc 則內定為 0
+            out.append(struct.pack('H', f.att_bc))
+        return b"".join(out)
+ 
+def test():
+    stl=StL('Header ...')
+    stl.add_facet(StLFacet((0.,0.,1.),(0.,0.,0.),(1.,0.,0.),(0.,1.,0.)))
+    stl.add_facet(StLFacet((0.,0.,1.),(1.,0.,0.),(1.,1.,0.),(0.,1.,0.)))
+    # 第二個平面
+    stl.add_facet(StLFacet((0.,-1.,0.),(0.,0.,0.),(0.,0.,-1.),(1.,0.,-1.)))
+    stl.add_facet(StLFacet((0.,-1.,0.),(0.,0.,0.),(1.,0.,-1.),(1.,0.,0.)))
+    return stl.get_binary()
+ 
+# 指定存為 binary 格式檔案
+stlfile = open("test.stl", "wb")
+stlcontent = test()
+stlfile.write(stlcontent)</t>
+<t tx="yen.20161217090802.1">@language python
+# L-15 MCS 507 Mon 30 Sep 2013 : oo model for 4-bar mechanism
+# source: http://homepages.math.uic.edu/~jan/mcs507f13/index.html
+ 
+"""
+The main program to test the class prompts the user for n,
+a number of angles, and then prints the coordinates for the
+five joints that define the mechanism.
+"""
+ 
+from math import cos, sin, pi, sqrt
+ 
+class FourBar(object):
+    """
+    A 4-bar mechanism is determined by five parameters:
+    (1) a : the length of the horizontal bar,
+    (2) L : the length of the crank,
+    (3) R : the length of the bar attached to the crank,
+    (4) r : the length of the bar to the right,
+    (5) b : the length of the bar to the coupler.
+    The mechanism is driven by a crank, with angle t,
+    and we use c = cos(t) and s = sin(t).
+    The value of t determines the state of the mechanism.
+    """
+ 
+    def __init__(self, a=100, L=50, R=125, r=125, b=125, t=pi/2):
+        """
+        Initializes a 4-bar mechanism with the 5 given lengths
+        and sets the state of the 4-bar to the angle t.
+        Default values are for the Chebyshev mechanism.
+        """
+        self.flat = a    # (0,a) is joint
+        self.crank = L   # length of the crank
+        self.top = R     # length of bar attached to crank
+        self.right = r   # length of the right bar
+        self.coupler = b # length of bar to the coupler
+        self.angle = t   # state of the 4-bar
+ 
+    def z1(self):
+        """
+        Returns the value of L^2+a^2-2*a*L*c.
+        """
+        a = self.flat
+        L = self.crank
+        c = cos(self.angle)
+        v = L**2 + a**2 - 2.0*a*L*c
+        return v
+ 
+    def z2(self):
+        """
+        Returns the value of -L*R^2*s+L^3*s+L*s*r^2+a^2*L*s-2*L^2*s*c*a.
+        """
+        a = self.flat
+        L = self.crank
+        R = self.top
+        r = self.right
+        c = cos(self.angle)
+        s = sin(self.angle)
+        v = -L*R**2*s+L**3*s+L*s*r**2+a**2*L*s-2*L**2*s*c*a
+        return v
+ 
+    def z3(self):
+        """
+        Returns the value of the square root of the discriminant:
+           sqrt(-2*L^2*R^2*s^2*a^2-2*L^2*R^2*s^2*r^2+2*a^4*R^2-a^2*r^4
+             +L^6*s^2-L^2*R^4+2*L^4*R^2+2*L^4*r^2-L^2*r^4-7*L^4*a^2
+             -7*L^2*a^4-L^6-a^6+6*L^4*s^2*a^2+4*L^3*R^2*s^2*c*a
+             -4*L^5*s^2*c*a-2*L^2*s^2*r^2*a^2-2*L^4*R^2*s^2+L^2*s^2*r^4
+             +5*a^4*L^2*s^2+2*L^2*r^2*R^2+6*L^5*a*c+4*L^2*a^2*R^2
+             +4*L^2*r^2*a^2+20*L^3*c*a^3+2*a^2*r^2*R^2+4*L^3*s^2*r^2*c*a
+             -12*a^3*L^3*s^2*c+4*L^4*s^2*c^2*a^2-8*L^3*a*R^2*c-8*L^3*a*r^2*c
+             -8*a^3*R^2*L*c-8*a^3*r^2*L*c-a^2*R^4+2*a^4*r^2+6*a^5*L*c
+             -8*a^2*L^4*c^2-8*a^4*L^2*c^2+2*a*L*c*R^4+2*a*L*c*r^4
+             +8*a^2*L^2*c^2*R^2+8*a^2*L^2*c^2*r^2-2*L^4*s^2*r^2
+             +L^2*R^4*s^2-4*a*L*c*r^2*R^2)
+        If the argument of the sqrt is negative, zero is returned.
+        """
+        a = self.flat
+        L = self.crank
+        c = cos(self.angle)
+        s = sin(self.angle)
+        R = self.top
+        r = self.right
+        v = -2.0*L**2*R**2*s**2*a**2-2*L**2*R**2*s**2*r**2+2*a**4*R**2 \
+            -a**2*r**4+L**6*s**2-L**2*R**4+2*L**4*R**2+2*L**4*r**2-L**2*r**4 \
+            -7*L**4*a**2-7*L**2*a**4-L**6-a**6+6*L**4*s**2*a**2 \
+            +4*L**3*R**2*s**2*c*a-4*L**5*s**2*c*a-2*L**2*s**2*r**2*a**2 \
+            -2*L**4*R**2*s**2+L**2*s**2*r**4 +5*a**4*L**2*s**2 \
+            +2*L**2*r**2*R**2+6*L**5*a*c+4*L**2*a**2*R**2 \
+            +4*L**2*r**2*a**2+20*L**3*c*a**3+2*a**2*r**2*R**2 \
+            +4*L**3*s**2*r**2*c*a-12*a**3*L**3*s**2*c+4*L**4*s**2*c**2*a**2 \
+            -8*L**3*a*R**2*c-8*L**3*a*r**2*c-8*a**3*R**2*L*c-8*a**3*r**2*L*c \
+            -a**2*R**4+2*a**4*r**2+6*a**5*L*c-8*a**2*L**4*c**2 \
+            -8*a**4*L**2*c**2+2*a*L*c*R**4+2*a*L*c*r**4 \
+            +8*a**2*L**2*c**2*R**2+8*a**2*L**2*c**2*r**2-2*L**4*s**2*r**2 \
+            +L**2*R**4*s**2-4*a*L*c*r**2*R**2
+        if v &lt; 0:
+            return 0
+        else:
+            return sqrt(v)
+ 
+    def y1p(self):
+        """
+        Returns the value of (1/2)*(z2+z3)/z1.
+        """
+        v = (self.z2()+self.z3())/(2*self.z1())
+        return v
+ 
+    def y1m(self):
+        """
+        Returns the value of (1/2)*(z2-z3)/z1.
+        """
+        v = (self.z2()-self.z3())/(2*self.z1())
+        return v
+ 
+    def x(self, y):
+        """
+        Returns the value of (1/2)*(-a^2+r^2+L^2-R^2-2*y*L*s)/(-a+L*c).
+        """
+        a = self.flat
+        L = self.crank
+        c = cos(self.angle)
+        s = sin(self.angle)
+        R = self.top
+        r = self.right
+        x_den = 2*(-a+L*c)
+        x_num = -a**2+r**2+L**2-R**2-2*y*L*s
+        v = x_num/x_den
+        return v
+ 
+    def connector_point(self):
+        """
+        Returns coordinates of connector point.
+        For complex values (0, 0) is returned.
+        """
+        try:
+            y1pv = self.y1p()
+            x1pv = self.x(y1pv)
+            return (x1pv, y1pv)
+        except:
+            return (0, 0)
+ 
+    def coupler_point(self):
+        """
+        Returns the coordinates of the coupler point.
+        """
+        t = self.angle
+        L = self.crank
+        ax = L*cos(t)
+        ay = L*sin(t)
+        p = self.connector_point()
+        dx = p[0] - ax
+        dy = p[1] - ay
+        b = self.coupler
+        if dx == 0:
+            x = ax
+            y = p[1] + b
+        else:
+            v = sqrt(dx*dx + dy*dy)
+            x = p[0] + b*dx/v
+            y = p[1] + b*dy/v
+        return (x, y)
+ 
+    def joints(self):
+        """
+        Returns the list of the coordinates of the
+        five joints that define the mechanism.
+        """
+        L = [(0, 0), (self.flat, 0)]
+        t = self.angle
+        L.append((self.crank*cos(t), self.crank*sin(t)))
+        L.append(self.connector_point())
+        L.append(self.coupler_point())
+        return L
+ 
+    def print_joints(self):
+        """
+        Prints the coordinates for the joints.
+        """
+        L = self.joints()
+        s = "%.2f " % self.angle
+        for p in L:
+            s = s + "(%5.1f, %5.1f)" % p
+        print(s)
+ 
+    def track_path(self):
+        """
+        Computes coordinates of points along a path
+        tracked by the coupler point.
+        """
+        n = int(input('give number of samples = '))
+        h = 2*pi/n
+        for i in range(0, n):
+            self.print_joints()
+            self.angle = self.angle + h
+            if self.angle &gt; 2*pi:
+                self.angle = self.angle - 2*pi
+ 
+def main():
+    """
+    Evaluates the formulas for the coupler of the 4-bar mechanism
+    for values corresponding to the Chebyshev mechanism.
+    """
+    fbr = FourBar()
+    fbr.track_path()
+
+if __name__ == "__main__":
+    main()</t>
+<t tx="yen.20161217090828.1"># L-15 MCS 507 Mon 30 Sep 2013 : GUI model for 4-bar mechanism
+# source: http://homepages.math.uic.edu/~jan/mcs507f13/index.html
+
+"""
+The GUI consists of one canvas to draw a 4-bar mechanism.
+A 4-bar mechanism consists of four rigid bars.  The first bar, the crank,
+drives the mechanism.  The first two scales at the left regulate the
+length of the crank and the angle of the crank.
+The horizontal scale below the canvas determine the position of the
+rightmost bottom joint, at the start of the right bar.
+
+The bar attached to the crank connects to the right bar.
+six scales and six corresponding labels.  Five of the six scales
+determine the lenghts of the bars of the mechanims.
+"""
+
+from tkinter import Tk, Canvas, Entry, Label, Scale
+from tkinter import IntVar, DoubleVar, Button, Checkbutton
+from tkinter import W, E, LEFT, RIGHT, INSERT, END, ALL
+from fourbar import FourBar
+
+class FourBarGUI(object):
+    """
+    GUI to model a 4-bar mechanism.
+    """
+    def __init__(self, wdw, r, c):
+        """
+        Determines layout of the canvas,
+        number of rows and colums is r and c.
+        """
+        wdw.title('a 4-bar mechanism')
+        self.fbr = FourBar()
+        self.rows = r
+        self.cols = c
+        self.ox = c/3
+        self.oy = 3*r/4
+        # print "A =" , (self.ox, self.oy)
+        self.togo = False
+        # the canvas and start, stop, and clear buttons
+        self.c = Canvas(wdw, width=self.cols, height=self.rows, bg='green')
+        self.c.grid(row=1, column=2, columnspan=2)
+        self.startbut = Button(wdw, text='start', command = self.start)
+        self.startbut.grid(row=3, column=2, sticky=W+E)
+        self.stopbut = Button(wdw, text='stop', command = self.stop)
+        self.stopbut.grid(row=3, column=3, sticky=W+E)
+        self.clearbut = Button(wdw, text='clear', command = self.clear)
+        self.clearbut.grid(row=3, column=4, columnspan=3, sticky=W+E)
+        # the length of the crank
+        self.crank_lbl = Label(wdw, text='crank', justify=LEFT)
+        self.crank_lbl.grid(row=0, column=0)
+        self.crank_bar = IntVar()
+        self.L = Scale(wdw, orient='vertical', from_=0, to=self.rows/2, \
+            tickinterval=20, resolution=1, length=self.rows, \
+            variable=self.crank_bar, command=self.draw_mechanism)
+        self.L.set(self.fbr.crank)
+        self.L.grid(row=1, column=0)
+        # the angle that drives the crank
+        self.angle_lbl = Label(wdw, text='angle', justify=LEFT)
+        self.angle_lbl.grid(row=0, column=1)
+        self.angle = DoubleVar()
+        self.t = Scale(wdw, orient='vertical', from_=0, to=6.30, \
+            tickinterval=0.30, resolution=0.01, length=self.rows, \
+            variable=self.angle, command=self.draw_mechanism)
+        self.t.grid(row=1, column=1)
+        self.angle.set(self.fbr.angle)
+        # the bar at the right
+        self.right_bar_lbl = Label(wdw, text='right bar', justify=LEFT)
+        self.right_bar_lbl.grid(row=0, column=4)
+        self.right_bar = IntVar()
+        self.r = Scale(wdw, orient='vertical', from_=0, to=self.rows/2, \
+            tickinterval=20, resolution=1, length=self.rows, \
+            variable=self.right_bar, command=self.draw_mechanism)
+        self.r.grid(row=1, column=4)
+        self.right_bar.set(self.fbr.right)
+        # the top bar attached to the crank
+        self.top_bar_lbl = Label(wdw, text='top bar', justify=LEFT)
+        self.top_bar_lbl.grid(row=0, column=5)
+        self.r_top_bar = IntVar()
+        self.R = Scale(wdw, orient='vertical', from_=0, to=self.rows/2, \
+            tickinterval=20, resolution=1, length=self.rows, \
+            variable=self.r_top_bar, command=self.draw_mechanism)
+        self.R.grid(row=1, column=5)
+        self.r_top_bar.set(self.fbr.top)
+        # the scale for the coupler bar
+        self.coupler_bar_lbl = Label(wdw, text='coupler', justify=LEFT)
+        self.coupler_bar_lbl.grid(row=0, column=6)
+        self.coupler_bar = IntVar()
+        self.cpl = Scale(wdw, orient='vertical', from_=0, to=self.rows/2, \
+            tickinterval=20, resolution=1, length=self.rows, \
+            variable=self.coupler_bar, command=self.draw_mechanism)
+        self.cpl.grid(row=1, column=6)
+        self.coupler_bar.set(self.fbr.coupler)
+        # the horizontal bottom bar
+        self.flat_lbl = Label(wdw, text='right joint', justify=RIGHT)
+        self.flat_lbl.grid(row=2, column=1)
+        self.flat = IntVar()
+        self.f = Scale(wdw, orient='horizontal', from_=0, to=self.rows/2, \
+            tickinterval=50, resolution=1, length=self.cols, \
+            variable=self.flat, command=self.draw_mechanism)
+        self.f.grid(row=2, column=2, columnspan=2)
+        self.flat.set(self.fbr.flat)
+        # coordinates of the coupler point appear on top
+        self.ex = Entry(wdw) # for x value
+        self.ex.grid(row=0, column=2)
+        self.ex.insert(INSERT, "x = ")
+        self.ey = Entry(wdw) # for y value
+        self.ey.grid(row=0, column=3)
+        self.ey.insert(INSERT,"y = ")
+        # check button for drawing of coupler curve
+        self.curve = IntVar()
+        self.cb = Checkbutton(wdw, text='coupler', \
+            variable=self.curve, onvalue=1, offvalue=0)
+        self.curve.set(1)
+        self.cb.grid(row=3, column=0)
+        # draw the mechanism on canvas
+        self.draw_mechanism(0)
+
+    def update_values(self):
+        """
+        Takes all values of the scales and updates
+        the data attributes of self.fbr.
+        """
+        self.fbr.flat = self.flat.get()
+        self.fbr.crank = self.crank_bar.get()
+        self.fbr.top = self.r_top_bar.get()
+        self.fbr.right = self.right_bar.get()
+        self.fbr.coupler = self.coupler_bar.get()
+        self.fbr.angle = self.angle.get()
+        #self.fbr.print_joints()
+
+    def draw_coupler_point(self, p):
+        """
+        Draws coupler point with coordinates in p
+        if the curve checkbox is on.
+        Note that the previous values for the coordinates
+        of the coupler point are stored in the entry fields.
+        """
+        if self.curve.get() == 1:
+            px = self.ox + p[0]
+            py = self.oy - p[1]
+            eqx = self.ex.get()
+            Lx = eqx.split('=')
+            if Lx[1] == ' ':
+                qx = 0.0
+            else:
+                qx = float(Lx[1])
+            eqy = self.ey.get()
+            Ly = eqy.split('=')
+            if Ly[1] == ' ':
+                qy = 0.0
+            else:
+                qy = float(Ly[1])
+            if (qx != 0.0) and (qy != 0.0):
+                qx = self.ox + qx
+                qy = self.oy - qy
+                self.c.create_line(qx, qy, px, py, width=1)
+
+    def fill_entries(self, p):
+        """
+        Fills the entry fields with the coordinates
+        of the coupler point in p.
+        """
+        sx = 'x = %f' % p[0]
+        sy = 'y = %f' % p[1]
+        self.ex.delete(0, END)
+        self.ex.insert(INSERT, sx)
+        self.ey.delete(0, END)
+        self.ey.insert(INSERT, sy)
+
+    def draw_link(self, p, q, s):
+        """
+        Draws the link from point with coordinates in p
+        to the point with coordinates in q, using s as tag.
+        """
+        self.c.delete(s)
+        px = self.ox + p[0]
+        py = self.oy - p[1]
+        qx = self.ox + q[0]
+        qy = self.oy - q[1]
+        self.c.create_line(px, py, qx, qy, width=2, tags=s)
+
+    def draw_mechanism(self, v):
+        """
+        Fills the canvas with the current model
+        of the planar 4-bar mechanism.
+        Because this command is called by the sliders,
+        the argument v is needed but not used.
+        """
+        self.update_values()
+        L = self.fbr.joints()
+        for i in range(0, len(L)):
+            p = L[i]
+            px = self.ox + p[0]
+            py = self.oy - p[1]
+            sj = 'joint%d' % i
+            self.c.delete(sj)
+            self.c.create_oval(px-6, py-6, px+6, py+6, width=1, \
+                outline='black', fill='red', tags=sj)
+        self.draw_link(L[0], L[2], 'link0')
+        self.draw_link(L[1], L[3], 'link1')
+        self.draw_link(L[2], L[3], 'link2')
+        self.draw_link(L[2], L[4], 'link3')
+        self.draw_coupler_point(L[4])
+        self.fill_entries(L[4])
+
+    def start(self):
+        """
+        Starts the animation, adding 0.01 to angle.
+        """
+        self.togo = True
+        while self.togo:
+            theta = self.angle.get()
+            theta = theta + 0.01
+            if theta &gt; 6.28:
+                theta = 0
+            self.angle.set(theta)
+            self.draw_mechanism(0)
+            self.c.update()
+
+    def stop(self):
+        """
+        Stops the animation.
+        """
+        self.togo = False
+
+    def clear(self):
+        """
+        Clears the canvas.
+        """
+        self.c.delete(ALL)
+
+def main():
+    """
+    Sets the dimensions
+    and launches the GUI.
+    """
+    top = Tk()
+    r = 400
+    c = 600
+    FourBarGUI(top, r, c)
+    top.mainloop()
+
+if __name__ == "__main__":
+    main()</t>
+<t tx="yen.20161217095307.1"># 控制 solidworks 與 inventor 原理相同
+import win32com.client
+win32com.client.pythoncom.CoInitialize()
+seApp = win32com.client.Dispatch('SolidEdge.Application')
+seApp.Visible=1
+#print(seApp)
+seApp.Documents.Open('v:/part2.par')
+objVar=seApp.ActiveDocument.Variables
+doc = seApp.ActiveDocument
+objUOM = doc.UnitsOfMeasure
+models = doc.Models
+model = models.Item(1)
+for i in range(1, 5):
+    dim1 = i
+    objVar.Edit('linear_1', dim1)
+    objVar.Edit('Linear_2',100)
+    objVar.Edit('Linear_3',100)
+ 
+    # 先取得 body object of the model
+    objBody = doc.Models(1).Body
+    # getting the volume of the body object
+    dblVolume = objBody.Volume
+    #print(dblVolume)
+ 
+     # 以下為內部單位轉換所設定的常數, 不可更動
+    igUnitDistance = 1
+    igUnitVolume = 56
+    '''
+    存檔後才可使用 model.GetPhysicalProperties 取正確的體積
+    volume = 0
+    volume = model.GetPhysicalProperties()[3]
+    帶有單位的體積 =  objUOM.FormatUnit(igUnitVolume, volume)
+    print("零件體積為:"+帶有單位的體積)
+    '''
+    # 將 body object 轉為帶有使用者設定單位的體積
+    帶有單位的體積 =  objUOM.FormatUnit(igUnitVolume, dblVolume)
+    print("零件體積為:"+帶有單位的體積)</t>
+<t tx="yen.20161217095548.1">當知道三角形的兩邊長度與一角度時，餘弦定理可被用來計算第三邊的長，或是當知道三角形三邊的長度時，可用來求出任何一個角(http://virtual.cvut.cz/dyn/examples/examples/equations/eqs5/ )。
+
+所以若不使用複數來解平面四連桿機構的運動分析, 就可以利用兩次餘弦定理來求得所有連桿運動時對應的角度. 假如疊代三次就可以求得平面四連桿(固定不動桿稱為基桿(ground link), 主動桿稱為曲柄(crank), 連接曲柄與搖桿(rocker)的桿件稱為結合桿(floating link))結合桿上三角形頂點的位置座標.
+
+請根據 http://mypages.iit.edu/~maslanka/119TRIG_notes_8.pdf 的說明, 以 Python 程式解出各題目的要求
+
+餘弦定理： https://zh.wikipedia.org/wiki/%E9%A4%98%E5%BC%A6%E5%AE%9A%E7%90%86
+
+四連桿運動分析: http://virtual.cvut.cz/dyn/examples/examples/equations/eqs5/</t>
+<t tx="yen.20161217101003.1">@language python
+# https://cadp.kmol.info/brython?filename=2014_cadp_w4_fourbar1.py
+# 仍有 bugs?
+#要注意 javascript 轉 python 語法差異
+
+#document.getElementById -&gt; doc[]
+#module Math -&gt; math
+#Math.PI -&gt; math.pi
+#abs -&gt; fabs
+#array 可用 list代替
+
+import math
+import time
+from browser import doc
+import browser.timer
+
+class Coord(object):
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+    def __sub__(self,other):
+        # This allows you to substract vectors
+        return Coord(self.x-other.x,self.y-other.y)
+
+    def __repr__(self):
+        # Used to get human readable coordinates when printing
+        return "Coord(%f,%f)"%(self.x,self.y)
+
+    def length(self):
+        # Returns the length of the vector
+        return math.sqrt(self.x**2 + self.y**2)
+
+    def angle(self):
+        # Returns the vector's angle
+        return math.atan2(self.y,self.x)
+
+def normalize(coord):
+    return Coord(
+        coord.x/coord.length(),
+        coord.y/coord.length()
+        )
+
+def perpendicular(coord):
+    # Shifts the angle by pi/2 and calculate the coordinates
+    # using the original vector length
+    return Coord(
+        coord.length()*math.cos(coord.angle()+math.pi/2),
+        coord.length()*math.sin(coord.angle()+math.pi/2)
+        )
+
+# 點類別
+class Point(object):
+    # 起始方法
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        
+    # 繪製方法
+    def drawMe(self, g, r):
+        self.g = g
+        self.r = r
+        self.g.save()
+        self.g.moveTo(self.x,self.y)
+        self.g.beginPath()
+        # 根據 r 半徑繪製一個圓代表點的所在位置
+        self.g.arc(self.x, self.y, self.r, 0, 2*math.pi, true)
+        self.g.moveTo(self.x,self.y)
+        self.g.lineTo(self.x+self.r, self.y)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x-self.r, self.y)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x, self.y+self.r)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x, self.y-self.r)
+        self.g.stroke()
+        self.g.restore()
+
+    # 加入 Eq 方法
+    def Eq(self, pt):
+        self.x = pt.x
+        self.y = pt.y
+
+    # 加入 setPoint 方法
+    def setPoint(self, px, py):
+        self.x = px
+        self.y = py
+
+    # 加上 distance(pt) 方法, 計算點到 pt 的距離
+    def distance(self, pt):
+        self.pt = pt
+        x = self.x - self.pt.x
+        y = self.y - self.pt.y
+        return math.sqrt(x * x + y * y)
+    
+    # 利用文字標示點的座標位置
+    def tag(self, g):
+        self.g = g
+        self.g.beginPath()
+        self.g.fillText("%d, %d"%(self.x, self.y),self.x, self.y)
+        self.g.stroke()
+
+
+# Line 類別物件
+class Line(object):
+
+    # 起始方法
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        # 直線的第一點, 設為線尾
+        self.Tail = self.p1
+        # 直線組成的第二點, 設為線頭
+        self.Head = self.p2
+        # 直線的長度屬性
+        self.length = math.sqrt(math.pow(self.p2.x-self.p1.x, 2)+math.pow(self.p2.y-self.p1.y,2))
+
+    # setPP 以指定頭尾座標點來定義直線
+    def setPP(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        self.Tail = self.p1
+        self.Head = self.p2
+        self.length = math.sqrt(math.pow(self.p2.x-self.p1.x, 2)+math.pow(self.p2.y-self.p1.y,2))
+
+    # setRT 方法 for Line, 應該已經確定 Tail 點, 然後以 r, t 作為設定 Head 的參考
+    def setRT(self, r, t):
+        self.r = r
+        self.t = t
+        x = self.r * math.cos(self.t)
+        y = self.r * math.sin(self.t)
+        self.Tail.Eq(self.p1)
+        self.Head.setPoint(self.Tail.x + x,self.Tail.y + y)
+
+    # getR 方法 for Line
+    def getR(self):
+        # x 分量與 y 分量
+        x = self.p1.x - self.p2.x
+        y = self.p1.y - self.p2.y
+        return math.sqrt(x * x + y * y)
+
+    # 根據定義 atan2(y,x), 表示 (x,y) 與 正 x 軸之間的夾角, 介於 pi 與 -pi 間
+    def getT(self):
+        x = self.p2.x - self.p1.x
+        y = self.p2.y - self.p1.y
+        if (math.fabs(x) &lt; math.pow(10,-100)):
+            if(y &lt; 0.0):
+                return (-math.pi/2)
+            else:
+                return (math.pi/2)
+        else:
+            return math.atan2(y, x)
+
+    # setTail 方法 for Line
+    def setTail(self, pt):
+        self.pt = pt
+        self.Tail.Eq(pt)
+        self.Head.setPoint(self.pt.x + self.x, self.pt.y + self.y)
+
+    # getHead 方法 for Line
+    def getHead(self):
+        return self.Head
+
+    def getTail(self):
+        return self.Tail
+
+    def drawMe(self, g):
+        self.g = g
+        self.g.beginPath()
+        self.g.moveTo(self.p1.x,self.p1.y)
+        self.g.lineTo(self.p2.x,self.p2.y)
+        self.g.stroke()
+
+    def test(self):
+        return ("this is pure test to Inherit")
+
+
+class Link(Line):
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        self.length = math.sqrt(math.pow((self.p2.x - self.p1.x), 2) + math.pow((self.p2.y - self.p1.y), 2))
+
+    #g context
+    def drawMe(self, g):
+        self.g = g
+        hole = 5
+        radius = 10
+        length = self.getR()
+        # alert(length)
+        # 儲存先前的繪圖狀態
+        self.g.save()
+        self.g.translate(self.p1.x,self.p1.y)
+        #alert(str(self.p1.x)+","+str(self.p1.y))
+        #self.g.rotate(-((math.pi/2)-self.getT()))
+        self.g.rotate(-math.pi*0.5 + self.getT())
+        #alert(str(self.getT()))
+        #self.g.rotate(10*math.pi/180)
+        #this.g.rotate(-(Math.PI/2-this.getT()));
+        # 必須配合畫在 y 軸上的 Link, 進行座標轉換, 也可以改為畫在 x 軸上...
+        self.g.beginPath()
+        self.g.moveTo(0,0)
+        self.g.arc(0, 0, hole, 0, 2*math.pi, true)
+        self.g.stroke()
+
+        self.g.moveTo(0,length)
+        self.g.beginPath()
+        self.g.arc(0,length, hole, 0, 2*math.pi, true)
+        self.g.stroke()
+
+        self.g.moveTo(0,0)
+        self.g.beginPath()
+        self.g.arc(0,0, radius, 0, math.pi, true)
+        self.g.moveTo(0+radius,0)
+        self.g.lineTo(0+radius,0+length)
+        self.g.stroke()
+
+        self.g.moveTo(0,0+length)
+        self.g.beginPath()
+        self.g.arc(0, 0+length, radius, math.pi, 0, true)
+        self.g.moveTo(0-radius,0+length)
+        self.g.lineTo(0-radius,0)
+        self.g.stroke()
+
+        self.g.restore()
+        
+        self.g.beginPath()
+        self.g.fillStyle = "red"
+        self.g.font = "bold 18px sans-serif"
+        self.g.fillText("%d, %d"%(self.p2.x, self.p2.y),self.p2.x, self.p2.y)
+        self.g.stroke()
+        #self.g.restore()
+
+
+class Triangle(object):
+    def __init__(self, p1, p2, p3):
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+
+    def getLenp3(self):
+        p1 = self.p1
+        ret = p1.distance(self.p2)
+        return ret
+
+    def getLenp1(self):
+        p2 = self.p2
+        ret = p2.distance(self.p3)
+        return ret
+
+    def getLenp2(self):
+        p1 = self.p1
+        ret = p1.distance(self.p3)
+        return ret
+
+    # 角度
+    def getAp1(self):
+        ret = math.acos(((self.getLenp2() * self.getLenp2() + self.getLenp3() * self.getLenp3()) - self.getLenp1() * self.getLenp1()) / (2* self.getLenp2() * self.getLenp3()))
+        return ret
+
+    #
+    def getAp2(self):
+        ret =math.acos(((self.getLenp1() * self.getLenp1() + self.getLenp3() * self.getLenp3()) - self.getLenp2() * self.getLenp2()) / (2* self.getLenp1() * self.getLenp3()))
+        return ret
+
+    def getAp3(self):
+        ret = math.acos(((self.getLenp1() * self.getLenp1() + self.getLenp2() * self.getLenp2()) - self.getLenp3() * self.getLenp3()) / (2* self.getLenp1() * self.getLenp2()))
+        return ret
+
+    def drawMe(self, g):
+        self.g = g
+        r = 5
+        # 繪出三個頂點
+        self.p1.drawMe(self.g,r)
+        self.p2.drawMe(self.g,r)
+        self.p3.drawMe(self.g,r)
+        line1 = Line(self.p1,self.p2)
+        line2 = Line(self.p1,self.p3)
+        line3 = Line(self.p2,self.p3)
+        # 繪出三邊線
+        line1.drawMe(self.g)
+        line2.drawMe(self.g)
+        line3.drawMe(self.g)
+
+    # ends Triangle def
+    # 透過三個邊長定義三角形
+    def setSSS(self, lenp3, lenp1, lenp2):
+        self.lenp3 = lenp3
+        self.lenp1 = lenp1
+        self.lenp2 = lenp2
+        self.ap1 = math.acos(((self.lenp2 * self.lenp2 + self.lenp3 * self.lenp3) - self.lenp1 * self.lenp1) / (2* self.lenp2 * self.lenp3))
+        self.ap2 = math.acos(((self.lenp1 * self.lenp1 + self.lenp3 * self.lenp3) - self.lenp2 * self.lenp2) / (2* self.lenp1 * self.lenp3))
+        self.ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp2 * self.lenp2) - self.lenp3 * self.lenp3) / (2* self.lenp1 * self.lenp2))
+
+    # 透過兩個邊長與夾角定義三角形
+    def setSAS(self, lenp3, ap2, lenp1):
+        self.lenp3 = lenp3
+        self.ap2 = ap2
+        self.lenp1 = lenp1
+        self.lenp2 = math.sqrt((self.lenp3 * self.lenp3 + self.lenp1 * self.lenp1) - 2* self.lenp3 * self.lenp1 * math.cos(self.ap2))
+        #等於 SSS(AB, BC, CA)
+
+    def setSaSS(self, lenp2, lenp3, lenp1):
+        self.lenp2 = lenp2
+        self.lenp3 = lenp3
+        self.lenp1 = lenp1
+        if(self.lenp1 &gt; (self.lenp2 + self.lenp3)):
+        #&lt;CAB 夾角為 180 度, 三點共線且 A 介於 BC 之間
+            ret = math.pi
+        else :
+            # &lt;CAB 夾角為 0, 三點共線且 A 不在 BC 之間
+            if((self.lenp1 &lt; (self.lenp2 - self.lenp3)) or (self.lenp1 &lt; (self.lenp3 - self.lenp2))):
+                ret = 0.0
+            else :
+            # 透過餘絃定理求出夾角 &lt;CAB 
+                ret = math.acos(((self.lenp2 * self.lenp2 + self.lenp3 * self.lenp3) - self.lenp1 * self.lenp1) / (2 * self.lenp2 * self.lenp3))
+        return ret
+
+    # 取得三角形的三個邊長值
+    def getSSS(self):
+        temp = []
+        temp.append( self.getLenp1() )
+        temp.append( self.getLenp2() )
+        temp.append( self.getLenp3() )
+        return temp
+
+    # 取得三角形的三個角度值
+    def getAAA(self):
+        temp = []
+        temp.append( self.getAp1() )
+        temp.append( self.getAp2() )
+        temp.append( self.getAp3() )
+        return temp
+
+    # 取得三角形的三個角度與三個邊長
+    def getASASAS(self):
+        temp = []
+        temp.append(self.getAp1())
+        temp.append(self.getLenp1())
+        temp.append(self.getAp2())
+        temp.append(self.getLenp2())
+        temp.append(self.getAp3())
+        temp.append(self.getLenp3())
+        return temp
+    #2P 2L return mid P
+    def setPPSS(self, p1, p3, lenp1, lenp3):
+        temp = []
+        self.p1 = p1
+        self.p3 = p3
+        self.lenp1 = lenp1
+        self.lenp3 = lenp3
+
+        #bp3 is the angle beside p3 point, cp3 is the angle for line23, p2 is the output
+        line31 = Line(p3, p1)
+        self.lenp2 = line31.getR()
+        #self.lenp2 = self.p3.distance(self.p1)
+        #這裡是求角3
+        ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp2 * self.lenp2) - self.lenp3 * self.lenp3) / (2 * self.lenp1 * self.lenp2))
+        #ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp3 * self.lenp3) - self.lenp2 * self.lenp2) / (2 * self.lenp1 * self.lenp3))
+        bp3 = line31.getT()
+        cp3 = bp3 - ap3
+        temp.append(p3.x + self.lenp1*math.cos(cp3))#p2.x
+        temp.append(p3.y + self.lenp1*math.sin(cp3))#p2.y
+        return temp
+
+def tag(g, p):
+    None
+
+midpt = Point(0, 0)
+tippt = Point(0, 0)
+contour = []
+# 執行繪圖流程, 注意 x, y 為 global variables
+def draw():
+    global theta, midpt, oldpt, p2, p3
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    line1.drawMe(context)
+    line2.drawMe(context)
+    line3.drawMe(context)
+    #triangle1.drawMe(context)
+    #triangle2.drawMe(context)
+    theta += dx
+    p2.x = p1.x + line1.length*math.cos(theta*degree)
+    p2.y = p1.y - line1.length*math.sin(theta*degree)
+    # 找出一個 bug, 其中 link3_len 與 link2_len 輸入變數顛倒
+    # 但是動態繪圖應該還有 bugs
+    p3.x, p3.y = triangle2.setPPSS(p2,p4,link3_len,link2_len)
+    # 計算垂直單位向量
+    a = Coord(p3.x, p3.y)
+    b = Coord(p2.x, p2.y)
+    normal = perpendicular(perpendicular(normalize(a-b)))
+    midpt.x = (p2.x + p3.x)/2
+    midpt.y = (p2.y + p3.y)/2
+    tippt.x = midpt.x - 375*normal.x
+    tippt.y = midpt.y - 375*normal.y
+    if theta &lt; 360:
+        contour.append((tippt.x, tippt.y))
+    context.beginPath()
+    context.moveTo(midpt.x, midpt.y)
+    context.lineTo(tippt.x, tippt.y)
+    # 利用 fillRect 繪製一個長寬各 1 單位的正方形
+    for i in range(len(contour)):
+        context.fillRect(contour[i][0], contour[i][1], 1, 1)
+    context.stroke()
+    p1.tag(context)
+
+# 以上為相關函式物件的定義區
+# 全域變數
+# 幾何位置輸入變數
+x=10
+y=10
+r=10
+
+# 畫布與繪圖內容
+# 其他輸入變數
+theta = 0
+degree = math.pi/180.0
+dx = 2
+dy = 4
+
+#set p1.p2.p3.p4 position
+p1 =  Point(100,100)
+p2 =  Point(200,100)
+p3 =  Point(250,math.sqrt(250*250-50*50)+100)
+p4 =  Point(300,100)
+
+#accord position create link
+line1 =  Link(p1,p2)
+line2 =  Link(p2,p3)
+line3 =  Link(p3,p4)
+line4 =  Link(p1,p4)
+line5 =  Link(p2,p4)
+
+link2_len = p2.distance(p3)
+link3_len = p3.distance(p4)
+
+#link2_len = line1.getR()
+#link3_len = line3.getR()
+#alert(str(link2_len)+','+str(link3_len))
+
+triangle1 =  Triangle(p1,p2,p4)
+triangle2 =  Triangle(p2,p3,p4)
+
+# 視窗載入時執行內容
+# 繪圖畫布設定
+
+canvas = doc["plotarea"]
+context = canvas.getContext("2d")
+
+# 座標轉換, 移動 canvas.height 並且 y 座標變號, 也就是將原點座標移到畫面左下角
+context.translate(0,canvas.height)
+context.scale(1,-1)
+
+#以間隔 10 micro seconds 重複呼叫 draw()
+#time.set_interval(draw,20)
+browser.timer.set_interval(draw,10)
+</t>
 </tnodes>
 </leo_file>
