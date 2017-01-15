@@ -28,7 +28,7 @@
 &lt;iframe width="640" height="480" src="https://www.youtube.com/embed/uqZiIO0YI7Y" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
 
 &lt;p&gt;2014Fall CADP 所提供的&lt;a href="./../data/cadp_project_ex1.pdf"&gt;專案範例&lt;/a&gt;, 以及 &lt;a href="./../data/pyIGES"&gt;PyIGES&lt;/a&gt; 專案.&lt;/p&gt;
-&lt;p&gt;2014Fall CADP 課程內容備份為: &lt;a href="2014cadp.kmol.info"&gt;2014cadp.kmol.info&lt;/a&gt; 採用 &lt;a href="https://github.com/chiamingyen/pygroup"&gt;Pygroup&lt;/a&gt; 系統. 這是一套使用 &lt;a href="http://cherrypy.org/"&gt;CherryPy&lt;/a&gt; 與 &lt;a href="https://sqlite.org/"&gt;SQLite&lt;/a&gt; 及 &lt;a href="https://www.mysql.com/"&gt;MySQL&lt;/a&gt; 的網際群組軟體. 在 2015Fall 之後, 已經利用 &lt;a href="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt; 取代 &lt;a href="http://cherrypy.org/"&gt;CherryPy&lt;/a&gt;, 成為 &lt;a href="https://github.com/chiamingyen/pygrouf"&gt;Pygrouf&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;2014Fall CADP 課程內容備份為: &lt;a href="http://2014cadp.kmol.info"&gt;2014cadp.kmol.info&lt;/a&gt; 採用 &lt;a href="https://github.com/chiamingyen/pygroup"&gt;Pygroup&lt;/a&gt; 系統. 這是一套使用 &lt;a href="http://cherrypy.org/"&gt;CherryPy&lt;/a&gt; 與 &lt;a href="https://sqlite.org/"&gt;SQLite&lt;/a&gt; 及 &lt;a href="https://www.mysql.com/"&gt;MySQL&lt;/a&gt; 的網際群組軟體. 在 2015Fall 之後, 已經利用 &lt;a href="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt; 取代 &lt;a href="http://cherrypy.org/"&gt;CherryPy&lt;/a&gt;, 成為 &lt;a href="https://github.com/chiamingyen/pygrouf"&gt;Pygrouf&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;2014Fall CADP 專案0:&lt;/p&gt;
 &lt;p&gt;2014Fall CADP 練習項目 1:&lt;/p&gt;
 
