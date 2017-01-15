@@ -187,6 +187,9 @@
 </v>
 <v t="yen.20161217095307.1"><vh>以 COM 控制 Solid Edge</vh></v>
 </v>
+<v t="yen.20170115225227.1" a="E"><vh>@path ./../data/</vh>
+<v t="yen.20170115225412.1"><vh>getVocabulary</vh></v>
+</v>
 </vnodes>
 <tnodes>
 <t tx="ibm.20161021125710.2">2016 Fall CADP 電腦輔助設計實習課程
@@ -995,14 +998,14 @@ import http.server, ssl
 def domake():
     # build directory
     os.chdir("./../")
-    server_address = ('localhost', 8443)
+    server_address = ('localhost', 6443)
     httpd = http.server.HTTPServer(server_address, http.server.SimpleHTTPRequestHandler)
     httpd.socket = ssl.wrap_socket(httpd.socket,
                                    server_side=True,
                                    certfile='localhost.crt',
                                    keyfile='localhost.key',
                                    ssl_version=ssl.PROTOCOL_TLSv1)
-    print("8443 https server started")
+    print("6443 https server started")
     httpd.serve_forever()
 
 # 利用執行緒執行 https 伺服器
@@ -17613,5 +17616,35 @@ def domake():
 # 利用執行緒執行 tkinter 視窗程式
 make = threading.Thread(target=domake)
 make.start()</t>
+<t tx="yen.20170115225227.1">g.es("test")</t>
+<t tx="yen.20170115225412.1">@language python
+#coding: utf-8
+# 檔案內容讀取範例
+檔案 = open("WebsterUnabridgedDictionary.txt",encoding="UTF-8")
+count = 0
+所有資料 = 檔案.readlines()
+try:
+    g.es("這個檔案共有:"+str(len(所有資料))+"行")
+except:
+    print("這個檔案共有:"+str(len(所有資料))+"行")
+
+for 行數 in range(len(所有資料)):
+    # 若該行的所有字母都是大寫, 表示為單字開頭
+    行資料 = 所有資料[行數].rstrip()
+    if(行資料.isupper()):
+        # 列出單字
+        #print(行資料.encode("UTF-8"))
+        count += 1
+    else:
+        # 列出單字的所屬解釋
+        #print("解釋", end="")
+        #print(行資料.encode("UTF-8"))
+        continue
+
+try:
+    g.es("單字數共有:"+str(count)+"個")
+except:
+    print("單字數共有:"+str(count)+"個")
+檔案.close() # 關閉檔案</t>
 </tnodes>
 </leo_file>
