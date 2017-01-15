@@ -140,6 +140,7 @@
 <v t="yen.20161124001005.1"><vh>@edit 20161124.md</vh></v>
 <v t="leo.20161209122659.1"><vh>@edit 20161209.md</vh></v>
 <v t="leo.20170106114821.1"><vh>@edit 20170106.md</vh></v>
+<v t="yen.20170115063105.1"><vh>@edit 20170115.md</vh></v>
 <v t="ibm.20161021132133.1"><vh>@path pages</vh>
 <v t="ibm.20161021132146.1"><vh>@edit pages_1.md</vh></v>
 </v>
@@ -148,6 +149,7 @@
 </v>
 <v t="yen.20161105093739.1"><vh>@button https server</vh></v>
 <v t="leo.20161202151659.1"><vh>@button ipv6 https server</vh></v>
+<v t="yen.20170115084714.1"><vh>@button feet-to-meter</vh></v>
 <v t="yen.20161105200533.1"><vh>reference</vh>
 <v t="yen.20161105113703.1"><vh>linkage synthesis</vh></v>
 <v t="yen.20161105122128.1"><vh>DE in C</vh></v>
@@ -170,11 +172,9 @@
 <v t="leo.20161223091801.1"><vh>電腦初學</vh></v>
 </v>
 <v t="leo.20161209124518.1"><vh>W13 問題</vh>
-<v t="leo.20161209124540.1" a="E"><vh>@path ./../plugin/liquid_tags/test_data/content/</vh>
-<v t="leo.20161209124741.1"><vh>@edit test-ipython-notebook-nbformat3.md</vh></v>
+<v t="leo.20161209124540.1"><vh>@@path ./../plugin/liquid_tags/test_data/content/</vh></v>
 </v>
-</v>
-<v t="yen.20161217084003.1" a="E"><vh>W15 平面機構模擬</vh>
+<v t="yen.20161217084003.1"><vh>W15 平面機構模擬</vh>
 <v t="yen.20161217095548.1"><vh>平面連桿機構</vh></v>
 <v t="yen.20161217101003.1"><vh>Brython 四連桿</vh></v>
 <v t="yen.20161217085158.1"><vh>pybean.py</vh>
@@ -984,7 +984,7 @@ def domake():
 make = threading.Thread(target=domake)
 make.start()</t>
 <t tx="leo.20161209124518.1"></t>
-<t tx="leo.20161209124540.1"></t>
+<t tx="leo.20161209124540.1">git rm ./../plugin/liquid_tags/test_data/content/ 才能正確轉換 pelican 網誌檔案</t>
 <t tx="leo.20161223091801.1">http://lnpcd.blogspot.tw/2012/09/00.html</t>
 <t tx="yen.20161105093739.1">@language python
 import os
@@ -17564,5 +17564,54 @@ context.scale(1,-1)
 #time.set_interval(draw,20)
 browser.timer.set_interval(draw,10)
 </t>
+<t tx="yen.20170115084714.1">@language python
+# 在 Leo Editor 專案中, 以多執行緒方式執行  tkinter 視窗程式
+'''
+本程式架構可以配合各種 command 執行, 納入參變數輸入進行客製化操作
+'''
+from tkinter import *
+from tkinter import ttk
+import threading
+
+def calculate(feet, meters):
+    try:
+        value = float(feet.get())
+        meters.set(round((0.3048 * value * 10000.0 + 0.5)/10000.0, 3))
+    except ValueError:
+        pass
+        
+def domake():
+    root = Tk()
+    root.title("Feet to Meters")
+     
+    mainframe = ttk.Frame(root, padding="3 3 12 12")
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    mainframe.columnconfigure(0, weight=1)
+    mainframe.rowconfigure(0, weight=1)
+     
+    feet = StringVar()
+    meters = StringVar()
+     
+    feet_entry = ttk.Entry(mainframe, width=7, textvariable=feet)
+    feet_entry.grid(column=2, row=1, sticky=(W, E))
+     
+    ttk.Label(mainframe, textvariable=meters).grid(column=2, row=2, sticky=(W, E))
+    # 按鍵必須透過 lambda 傳遞輸入變數
+    ttk.Button(mainframe, text="Calculate", command=lambda: calculate(feet, meters)).grid(column=3, row=3, sticky=W)
+     
+    ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
+    ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
+    ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
+     
+    for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
+     
+    feet_entry.focus()
+    root.bind('&lt;Return&gt;', calculate)
+     
+    root.mainloop()
+
+# 利用執行緒執行 tkinter 視窗程式
+make = threading.Thread(target=domake)
+make.start()</t>
 </tnodes>
 </leo_file>

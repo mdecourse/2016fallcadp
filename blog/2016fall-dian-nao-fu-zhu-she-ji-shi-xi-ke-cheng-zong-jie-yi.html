@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>2016Fall 電腦輔助設計實習課程總結 (一) - 2016Fall 電腦輔助設計實習 (虎尾科大MDE)</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+</style>
+
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
+<link rel="canonical" href="./2016fall-dian-nao-fu-zhu-she-ji-shi-xi-ke-cheng-zong-jie-yi.html">
+
+        <meta name="author" content="yen" />
+        <meta name="keywords" content="Final" />
+        <meta name="description" content="歷年電腦輔助設計實習課程內容比較, 2016FallCADP 未涵蓋之內容, 將部份納入 2017SpringCD 課程中." />
+
+        <meta property="og:site_name" content="2016Fall 電腦輔助設計實習 (虎尾科大MDE)" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="2016Fall 電腦輔助設計實習課程總結 (一)"/>
+        <meta property="og:url" content="./2016fall-dian-nao-fu-zhu-she-ji-shi-xi-ke-cheng-zong-jie-yi.html"/>
+        <meta property="og:description" content="歷年電腦輔助設計實習課程內容比較, 2016FallCADP 未涵蓋之內容, 將部份納入 2017SpringCD 課程中."/>
+        <meta property="article:published_time" content="2017-01-15" />
+            <meta property="article:section" content="Misc" />
+            <meta property="article:tag" content="Final" />
+            <meta property="article:author" content="yen" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="./theme/css/bootstrap.united.min.css" type="text/css"/>
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="./theme/css/pygments/monokai.css" rel="stylesheet">
+    <link href="./theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="./theme/css/style.css" type="text/css"/>
+
+        <link href="./feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="2016Fall 電腦輔助設計實習 (虎尾科大MDE) ATOM Feed"/>
+
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shCore.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushJScript.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushJava.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushPython.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushSql.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushXml.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushPhp.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushCpp.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushCss.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushCSharp.js"></script>
+<script type="text/javascript" src="https://coursemdetw.github.io/project_site_files/files/syntaxhighlighter/shBrushBash.js"></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://chiamingyen.github.io/kmolab_data/files/syntaxhighlighter/css/shCore.css";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "https://chiamingyen.github.io/kmolab_data/files/syntaxhighlighter/css/shThemeDefault.css?ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="./" class="navbar-brand">
+2016Fall 電腦輔助設計實習 (虎尾科大MDE)            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                         <li><a href="./pages/about/">
+                             About
+                          </a></li>
+                        <li class="active">
+                            <a href="./category/misc.html">Misc</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="./search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+              <li><a href="./archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="./2016fall-dian-nao-fu-zhu-she-ji-shi-xi-ke-cheng-zong-jie-yi.html"
+                       rel="bookmark"
+                       title="Permalink to 2016Fall 電腦輔助設計實習課程總結 (一)">
+                        2016Fall 電腦輔助設計實習課程總結 (一)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-01-15T12:16:00+08:00"> Sun 15 January 2017</time>
+    </span>
+            <span class="label label-default">By</span>
+            <a href="./author/yen.html"><i class="fa fa-user"></i> yen</a>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="./tag/final.html">Final</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>歷年電腦輔助設計實習課程內容比較, 2016FallCADP 未涵蓋之內容, 將部份納入 2017SpringCD 課程中.</p>
+
+
+<p>在 2015Fall CADP 課程中 (2015.10.26), 我們寫下<a href="http://wordpress-2015course.rhcloud.com/?m=20151026">大學生應有的學習態度</a>:</p>
+<p>面對全球協同的知識經濟環境, 身為一個大學生, 至少必須:</p>
+<ol>
+<li>
+<p>不要怕困難 (基本信念) – 因為幾乎處於網路時代的所有人, 在享受高度科技發展所帶來的便利性之後, 都必須隨時獨力或合力克服各種困難.</p>
+</li>
+<li>
+<p>不要失去熱忱 (強化動力) – 許多人在生活周遭都會碰到非常多不盡如人意的各種挑戰, 持續保持個人與團隊的處事熱忱, 是堅持克服困難的必備動力.</p>
+</li>
+<li>
+<p>不要以為不可能 (終究達陣) – 只要個人不斷提升待人處事能力, 持續接觸人文養分, 並且在團隊機制的架構下, 以轉知為智的精神來解決各式問題, 假以時日, 便可實現團隊理想, 化不可能為可能!</p>
+</li>
+</ol>
+<p>並且提供<a href="./../data/TPEA_2013112021132.pdf">培養新世紀大學生的關鍵能力</a> (2013.11)作為參考.</p>
+<p>文章中指出學習的五大支柱為:</p>
+<ol>
+<li>學會求知（learning to know）</li>
+<li>學會做事（learning to do）</li>
+<li>學會共同生活（learning to live together）</li>
+<li>學會發展（learning to be）</li>
+<li>學會改變（learning to change)</li>
+</ol>
+<p>至於在 2014Fall CADP 課程中, 我們<a href="http://cadp.kmol.info/get_page?heading=%E6%82%A8%E7%9F%A5%E9%81%93%E5%97%8E?">引用</a>以美國為觀點的 Did you know? 系列影片, 2016 年的版本為:</p>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/uqZiIO0YI7Y" frameborder="0" allowfullscreen></iframe>
+
+<p>2014Fall CADP 所提供的<a href="./../data/cadp_project_ex1.pdf">專案範例</a>, 以及 <a href="./../data/pyIGES">PyIGES</a> 專案.</p>
+<p>2014Fall CADP 課程內容備份為: <a href="2014cadp.kmol.info">2014cadp.kmol.info</a> 採用 <a href="https://github.com/chiamingyen/pygroup">Pygroup</a> 系統. 這是一套使用 <a href="http://cherrypy.org/">CherryPy</a> 與 <a href="https://sqlite.org/">SQLite</a> 及 <a href="https://www.mysql.com/">MySQL</a> 的網際群組軟體. 在 2015Fall 之後, 已經利用 <a href="http://flask.pocoo.org/">Flask</a> 取代 <a href="http://cherrypy.org/">CherryPy</a>, 成為 <a href="https://github.com/chiamingyen/pygrouf">Pygrouf</a>.</p>
+<p>2014Fall CADP 專案0:</p>
+<p>2014Fall CADP 練習項目 1:</p>
+
+<p>利用可攜程式環境, 在近端啟動"猜數字遊戲第一版, 程式碼位於 <a href="https://github.com/chiamingyen/cp_project/releases">https://github.com/chiamingyen/cp_project/releases</a> 標籤 cp_v1</p>
+
+<p>2014Fall CADP 練習項目 2:</p>
+
+<p>請將 cp_v1 部署到近端與遠端網際系統</p>
+
+<p>2014Fall CADP 練習項目 3:</p>
+
+<p>利用 Solvespace 建立一個簡單的四連桿機構, 當主動桿旋轉 360 度後, 請輸出中間桿上三角形頂點的移動路徑座標</p>
+
+<p>請自行利用程式進行相同尺寸四連桿的運動模擬, 並計算出中間桿上三角形頂點的移動路徑座標, 並與 Solvespace 的輸出結果比較</p>
+
+<p>平面四連桿位置分析: <a href="http://www.softintegration.com/chhtml/toolkit/mechanism/fourbar/fourbarpos.html">http://www.softintegration.com/chhtml/toolkit/mechanism/fourbar/fourbarpos.html</a> </p>
+
+<p>請利用 <a href="./../data/law_of_cosine.pdf">law of cosine</a>, 將 cp_vp 以 Brython 執行四連桿運動模擬:
+<!-- 導入 Brython 標準程式庫 -->
+
+<!-- <script type="text/javascript" src="https://cdn.rawgit.com/brython-dev/brython/master/www/src/brython_dist.js">
+</script> -->
+
+<script type="text/javascript" src="https://cdn.rawgit.com/brython-dev/brython/3.2.9/www/src/brython_dist.js">
+</script>
+
+<!-- 啟動 Brython -->
+<script>
+window.onload=function(){
+brython(1);
+}
+</script>
+
+<canvas id="plotarea" width="600" height="450"></canvas>
+<script type="text/python3">
+from browser import document
+import math
+import time
+from browser import timer
+
+class Coord(object):
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+    def __sub__(self,other):
+        # This allows you to substract vectors
+        return Coord(self.x-other.x,self.y-other.y)
+
+    def __repr__(self):
+        # Used to get human readable coordinates when printing
+        return "Coord(%f,%f)"%(self.x,self.y)
+
+    def length(self):
+        # Returns the length of the vector
+        return math.sqrt(self.x**2 + self.y**2)
+
+    def angle(self):
+        # Returns the vector's angle
+        return math.atan2(self.y,self.x)
+
+def normalize(coord):
+    return Coord(
+        coord.x/coord.length(),
+        coord.y/coord.length()
+        )
+
+def perpendicular(coord):
+    # Shifts the angle by pi/2 and calculate the coordinates
+    # using the original vector length
+    return Coord(
+        coord.length()*math.cos(coord.angle()+math.pi/2),
+        coord.length()*math.sin(coord.angle()+math.pi/2)
+        )
+
+# 點類別
+class Point(object):
+    # 起始方法
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    # 繪製方法
+    def drawMe(self, g, r):
+        self.g = g
+        self.r = r
+        self.g.save()
+        self.g.moveTo(self.x,self.y)
+        self.g.beginPath()
+        # 根據 r 半徑繪製一個圓代表點的所在位置
+        self.g.arc(self.x, self.y, self.r, 0, 2*math.pi, True)
+        self.g.moveTo(self.x,self.y)
+        self.g.lineTo(self.x+self.r, self.y)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x-self.r, self.y)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x, self.y+self.r)
+        self.g.moveTo(self.x, self.y)
+        self.g.lineTo(self.x, self.y-self.r)
+        self.g.restore()
+        self.g.stroke()
+
+    # 加入 Eq 方法
+    def Eq(self, pt):
+        self.x = pt.x
+        self.y = pt.y
+
+    # 加入 setPoint 方法
+    def setPoint(self, px, py):
+        self.x = px
+        self.y = py
+
+    # 加上 distance(pt) 方法, 計算點到 pt 的距離
+    def distance(self, pt):
+        self.pt = pt
+        x = self.x - self.pt.x
+        y = self.y - self.pt.y
+        return math.sqrt(x * x + y * y)
+
+    # 利用文字標示點的座標位置
+    def tag(self, g):
+        self.g = g
+        self.g.beginPath()
+        self.g.fillText("%d, %d"%(self.x, self.y),self.x, self.y)
+        self.g.stroke()
+
+
+# Line 類別物件
+class Line(object):
+
+    # 起始方法
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        # 直線的第一點, 設為線尾
+        self.Tail = self.p1
+        # 直線組成的第二點, 設為線頭
+        self.Head = self.p2
+        # 直線的長度屬性
+        self.length = math.sqrt(math.pow(self.p2.x-self.p1.x, 2)+math.pow(self.p2.y-self.p1.y,2))
+
+    # setPP 以指定頭尾座標點來定義直線
+    def setPP(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        self.Tail = self.p1
+        self.Head = self.p2
+        self.length = math.sqrt(math.pow(self.p2.x-self.p1.x, 2)+math.pow(self.p2.y-self.p1.y,2))
+
+    # setRT 方法 for Line, 應該已經確定 Tail 點, 然後以 r, t 作為設定 Head 的參考
+    def setRT(self, r, t):
+        self.r = r
+        self.t = t
+        x = self.r * math.cos(self.t)
+        y = self.r * math.sin(self.t)
+        self.Tail.Eq(self.p1)
+        self.Head.setPoint(self.Tail.x + x,self.Tail.y + y)
+
+    # getR 方法 for Line
+    def getR(self):
+        # x 分量與 y 分量
+        x = self.p1.x - self.p2.x
+        y = self.p1.y - self.p2.y
+        return math.sqrt(x * x + y * y)
+
+    # 根據定義 atan2(y,x), 表示 (x,y) 與 正 x 軸之間的夾角, 介於 pi 與 -pi 間
+    def getT(self):
+        x = self.p2.x - self.p1.x
+        y = self.p2.y - self.p1.y
+        if (math.fabs(x) < math.pow(10,-100)):
+            if(y < 0.0):
+                return (-math.pi/2)
+            else:
+                return (math.pi/2)
+        else:
+            return math.atan2(y, x)
+
+    # setTail 方法 for Line
+    def setTail(self, pt):
+        self.pt = pt
+        self.Tail.Eq(pt)
+        self.Head.setPoint(self.pt.x + self.x, self.pt.y + self.y)
+
+    # getHead 方法 for Line
+    def getHead(self):
+        return self.Head
+
+    def getTail(self):
+        return self.Tail
+
+    def drawMe(self, g):
+        self.g = g
+        self.g.beginPath()
+        self.g.moveTo(self.p1.x,self.p1.y)
+        self.g.lineTo(self.p2.x,self.p2.y)
+        self.g.stroke()
+
+    def test(self):
+        return ("this is pure test to Inherit")
+
+
+class Link(Line):
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        self.length = math.sqrt(math.pow((self.p2.x - self.p1.x), 2) + math.pow((self.p2.y - self.p1.y), 2))
+
+    #g context
+    def drawMe(self, g):
+        self.g = g
+        hole = 5
+        radius = 10
+        length = self.getR()
+        # alert(length)
+        # 儲存先前的繪圖狀態
+        self.g.save()
+        self.g.translate(self.p1.x,self.p1.y)
+        #alert(str(self.p1.x)+","+str(self.p1.y))
+        #self.g.rotate(-((math.pi/2)-self.getT()))
+        self.g.rotate(-math.pi*0.5 + self.getT())
+        #alert(str(self.getT()))
+        #self.g.rotate(10*math.pi/180)
+        #this.g.rotate(-(Math.PI/2-this.getT()));
+        # 必須配合畫在 y 軸上的 Link, 進行座標轉換, 也可以改為畫在 x 軸上...
+        self.g.beginPath()
+        self.g.moveTo(0,0)
+        self.g.arc(0, 0, hole, 0, 2*math.pi, True)
+        self.g.stroke()
+        self.g.moveTo(0,length)
+        self.g.beginPath()
+        self.g.arc(0,length, hole, 0, 2*math.pi, True)
+        self.g.stroke()
+        self.g.moveTo(0,0)
+        self.g.beginPath()
+        self.g.arc(0,0, radius, 0, math.pi, True)
+        self.g.moveTo(0+radius,0)
+        self.g.lineTo(0+radius,0+length)
+        self.g.stroke()
+        self.g.moveTo(0,0+length)
+        self.g.beginPath()
+        self.g.arc(0, 0+length, radius, math.pi, 0, True)
+        self.g.moveTo(0-radius,0+length)
+        self.g.lineTo(0-radius,0)
+        self.g.stroke()
+        self.g.restore()
+        '''
+        self.g.beginPath()
+        self.g.fillStyle = "red"
+        self.g.font = "bold 18px sans-serif"
+        self.g.fillText("%d, %d"%(self.p2.x, self.p2.y),self.p2.x, self.p2.y)
+        self.g.stroke()
+        '''
+
+
+class Triangle(object):
+    def __init__(self, p1, p2, p3):
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+
+    def getLenp3(self):
+        p1 = self.p1
+        ret = p1.distance(self.p2)
+        return ret
+
+    def getLenp1(self):
+        p2 = self.p2
+        ret = p2.distance(self.p3)
+        return ret
+
+    def getLenp2(self):
+        p1 = self.p1
+        ret = p1.distance(self.p3)
+        return ret
+
+    # 角度
+    def getAp1(self):
+        ret = math.acos(((self.getLenp2() * self.getLenp2() + self.getLenp3() * self.getLenp3()) - self.getLenp1() * self.getLenp1()) / (2* self.getLenp2() * self.getLenp3()))
+        return ret
+
+    #
+    def getAp2(self):
+        ret =math.acos(((self.getLenp1() * self.getLenp1() + self.getLenp3() * self.getLenp3()) - self.getLenp2() * self.getLenp2()) / (2* self.getLenp1() * self.getLenp3()))
+        return ret
+
+    def getAp3(self):
+        ret = math.acos(((self.getLenp1() * self.getLenp1() + self.getLenp2() * self.getLenp2()) - self.getLenp3() * self.getLenp3()) / (2* self.getLenp1() * self.getLenp2()))
+        return ret
+
+    def drawMe(self, g):
+        self.g = g
+        r = 5
+        # 繪出三個頂點
+        self.p1.drawMe(self.g,r)
+        self.p2.drawMe(self.g,r)
+        self.p3.drawMe(self.g,r)
+        line1 = Line(self.p1,self.p2)
+        line2 = Line(self.p1,self.p3)
+        line3 = Line(self.p2,self.p3)
+        # 繪出三邊線
+        line1.drawMe(self.g)
+        line2.drawMe(self.g)
+        line3.drawMe(self.g)
+
+    # ends Triangle def
+    # 透過三個邊長定義三角形
+    def setSSS(self, lenp3, lenp1, lenp2):
+        self.lenp3 = lenp3
+        self.lenp1 = lenp1
+        self.lenp2 = lenp2
+        self.ap1 = math.acos(((self.lenp2 * self.lenp2 + self.lenp3 * self.lenp3) - self.lenp1 * self.lenp1) / (2* self.lenp2 * self.lenp3))
+        self.ap2 = math.acos(((self.lenp1 * self.lenp1 + self.lenp3 * self.lenp3) - self.lenp2 * self.lenp2) / (2* self.lenp1 * self.lenp3))
+        self.ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp2 * self.lenp2) - self.lenp3 * self.lenp3) / (2* self.lenp1 * self.lenp2))
+
+    # 透過兩個邊長與夾角定義三角形
+    def setSAS(self, lenp3, ap2, lenp1):
+        self.lenp3 = lenp3
+        self.ap2 = ap2
+        self.lenp1 = lenp1
+        self.lenp2 = math.sqrt((self.lenp3 * self.lenp3 + self.lenp1 * self.lenp1) - 2* self.lenp3 * self.lenp1 * math.cos(self.ap2))
+        #等於 SSS(AB, BC, CA)
+
+    def setSaSS(self, lenp2, lenp3, lenp1):
+        self.lenp2 = lenp2
+        self.lenp3 = lenp3
+        self.lenp1 = lenp1
+        if(self.lenp1 > (self.lenp2 + self.lenp3)):
+        #<CAB 夾角為 180 度, 三點共線且 A 介於 BC 之間
+            ret = math.pi
+        else :
+            # <CAB 夾角為 0, 三點共線且 A 不在 BC 之間
+            if((self.lenp1 < (self.lenp2 - self.lenp3)) or (self.lenp1 < (self.lenp3 - self.lenp2))):
+                ret = 0.0
+            else :
+            # 透過餘絃定理求出夾角 <CAB 
+                ret = math.acos(((self.lenp2 * self.lenp2 + self.lenp3 * self.lenp3) - self.lenp1 * self.lenp1) / (2 * self.lenp2 * self.lenp3))
+        return ret
+
+    # 取得三角形的三個邊長值
+    def getSSS(self):
+        temp = []
+        temp.append( self.getLenp1() )
+        temp.append( self.getLenp2() )
+        temp.append( self.getLenp3() )
+        return temp
+
+    # 取得三角形的三個角度值
+    def getAAA(self):
+        temp = []
+        temp.append( self.getAp1() )
+        temp.append( self.getAp2() )
+        temp.append( self.getAp3() )
+        return temp
+
+    # 取得三角形的三個角度與三個邊長
+    def getASASAS(self):
+        temp = []
+        temp.append(self.getAp1())
+        temp.append(self.getLenp1())
+        temp.append(self.getAp2())
+        temp.append(self.getLenp2())
+        temp.append(self.getAp3())
+        temp.append(self.getLenp3())
+        return temp
+    #2P 2L return mid P
+    def setPPSS(self, p1, p3, lenp1, lenp3):
+        temp = []
+        self.p1 = p1
+        self.p3 = p3
+        self.lenp1 = lenp1
+        self.lenp3 = lenp3
+
+        #bp3 is the angle beside p3 point, cp3 is the angle for line23, p2 is the output
+        line31 = Line(p3, p1)
+        self.lenp2 = line31.getR()
+        #self.lenp2 = self.p3.distance(self.p1)
+        #這裡是求角3
+        ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp2 * self.lenp2) - self.lenp3 * self.lenp3) / (2 * self.lenp1 * self.lenp2))
+        #ap3 = math.acos(((self.lenp1 * self.lenp1 + self.lenp3 * self.lenp3) - self.lenp2 * self.lenp2) / (2 * self.lenp1 * self.lenp3))
+        bp3 = line31.getT()
+        cp3 = bp3 - ap3
+        temp.append(p3.x + self.lenp1*math.cos(cp3))#p2.x
+        temp.append(p3.y + self.lenp1*math.sin(cp3))#p2.y
+        return temp
+
+def tag(g, p):
+    None
+
+midpt = Point(0, 0)
+tippt = Point(0, 0)
+contour = []
+# 執行繪圖流程, 注意 x, y 為 global variables
+def draw():
+    global theta, midpt, oldpt
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    line1.drawMe(context)
+    line2.drawMe(context)
+    line3.drawMe(context)
+    #triangle1.drawMe(context)
+    #triangle2.drawMe(context)
+    theta += dx
+    p2.x = p1.x + line1.length*math.cos(theta*degree)
+    p2.y = p1.y - line1.length*math.sin(theta*degree)
+    p3.x, p3.y = triangle2.setPPSS(p2,p4,link2_len,link3_len)
+    # 計算垂直單位向量
+    a = Coord(p3.x, p3.y)
+    b = Coord(p2.x, p2.y)
+    normal = perpendicular(normalize(a-b))
+    midpt.x = (p2.x + p3.x)/2
+    midpt.y = (p2.y + p3.y)/2
+    tippt.x = midpt.x + 150*normal.x
+    tippt.y = midpt.y + 150*normal.y
+    if theta < 360:
+        contour.append((tippt.x, tippt.y))
+    context.beginPath()
+    context.moveTo(midpt.x, midpt.y)
+    context.lineTo(tippt.x, tippt.y)
+    # 利用 fillRect 繪製一個長寬各 1 單位的正方形
+    for i in range(len(contour)):
+        context.fillRect(contour[i][0], contour[i][1], 1, 1)
+    context.stroke()
+    #p1.tag(context)
+
+
+# 以上為相關函式物件的定義區
+# 全域變數
+# 幾何位置輸入變數
+x=10
+y=10
+r=10
+
+# 畫布與繪圖內容
+# 其他輸入變數
+theta = 0
+degree = math.pi/180.0
+dx = 2
+dy = 4
+
+#set p1.p2.p3.p4 position
+lift = 10
+p1 =  Point(150,100+lift)
+p2 =  Point(150,200+lift)
+p3 =  Point(300,300+lift)
+p4 =  Point(350,100+lift)
+
+#accord position create link
+line1 =  Link(p1,p2)
+line2 =  Link(p2,p3)
+line3 =  Link(p3,p4)
+line4 =  Link(p1,p4)
+line5 =  Link(p2,p4)
+
+link2_len = p2.distance(p3)
+link3_len = p3.distance(p4)
+
+#link2_len = line1.getR()
+#link3_len = line3.getR()
+#alert(str(link2_len)+','+str(link3_len))
+
+triangle1 =  Triangle(p1,p2,p4)
+triangle2 =  Triangle(p2,p3,p4)
+
+# 視窗載入時執行內容
+# 繪圖畫布設定
+
+canvas = document["plotarea"]
+context = canvas.getContext("2d")
+
+# 座標轉換, 移動 canvas.height 並且 y 座標變號, 也就是將原點座標移到畫面左下角
+context.translate(0,canvas.height)
+context.scale(1,-1)
+
+#以間隔 20 micro seconds 重複呼叫 draw()
+timer.set_interval(draw,20)
+#timer.set_interval(draw,10)
+</script>
+
+<br />
+以下則利用多執行緒模式, 在 Leo Editor 專案中, 以按鈕執行 tkinter 視窗程式:
+
+<pre class="brush: python">
+# 在 Leo Editor 專案中, 以多執行緒方式執行  tkinter 視窗程式
+'''
+本程式架構可以配合各種 command 執行, 納入參變數輸入進行客製化操作
+'''
+from tkinter import *
+from tkinter import ttk
+import threading
+
+def calculate(feet, meters):
+    try:
+        value = float(feet.get())
+        meters.set(round((0.3048 * value * 10000.0 + 0.5)/10000.0, 3))
+    except ValueError:
+        pass
+
+def domake():
+    root = Tk()
+    root.title("Feet to Meters")
+
+    mainframe = ttk.Frame(root, padding="3 3 12 12")
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    mainframe.columnconfigure(0, weight=1)
+    mainframe.rowconfigure(0, weight=1)
+
+    feet = StringVar()
+    meters = StringVar()
+
+    feet_entry = ttk.Entry(mainframe, width=7, textvariable=feet)
+    feet_entry.grid(column=2, row=1, sticky=(W, E))
+
+    ttk.Label(mainframe, textvariable=meters).grid(column=2, row=2, sticky=(W, E))
+    # 按鍵必須透過 lambda 傳遞輸入變數
+    ttk.Button(mainframe, text="Calculate", command=lambda: calculate(feet, meters)).grid(column=3, row=3, sticky=W)
+
+    ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
+    ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
+    ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
+
+    for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
+
+    feet_entry.focus()
+    root.bind('<Return>', calculate)
+
+    root.mainloop()
+
+# 利用執行緒執行 tkinter 視窗程式
+make = threading.Thread(target=domake)
+make.start()
+</pre>
+
+<p>2014Fall CADP 二乙上課問題:</p>
+<p>何謂協同?</p>
+<p>簡言之, 協同是具備較高層次與廣度的合作, 透過同步或非同步的合作與管理系統的整合, 努力達成共同期望與目標, 也就是協力一同的意思.</p>
+<p>聯合診所多名醫生的協同:</p>
+<p style="margin-left: 60px;">患者無論哪一時段看哪一位醫生, 都能夠得到相同且最優質的診治過程(各醫生採非同步協同), 而無需挑選特定醫師, 在特定時間與診所約診</p>
+<p style="margin-left: 60px;">要達到此一目的, 不同醫生之間除了要能整合所有患者的基本資訊外, 還必須彼此互通有無(討論或會診), 共同學習最新技術(各醫生採同步或非同步協同), 引入最新設施, 並且體貼不同患者的客製化需求.</p>
+<p>機械設計工程師的協同:</p>
+<p style="margin-left: 60px;">同一部門或不同部門的工程師可以彼此替代或輪班應付對內與對外的各項設計工作(各工程師採非同步協同), 要達到此一目的, 除了要有妥善的產品資料管理系統與產品生命週期管理系統外, 還需要工程師間能彼此互通有無, 共同學習最新技術(採同步或非同步)或在同一時間處理某一問題(各工程師採同步協同), 發展創新產品, 以滿足各方的客製化需求.</p>
+<p>參考資料: <a href="http://www.aiim.org/What-is-Collaboration">http://www.aiim.org/What-is-Collaboration</a></p>
+<p>What is Collaboration?</p>
+<p>Collaboration is a working practice whereby individuals work together to a common purpose to achieve business benefit.</p>
+<p>What is Collaboration?</p>
+<p>Collaboration enables individuals to work together to achieve a defined and common business purpose. It exists in two forms:</p>
+<ol>
+<li>Synchronous, where everyone interacts in real time, as in online meetings, through instant messaging, or via Skype, and</li>
+<li>Asynchronous, where the interaction can be time-shifted, as when uploading documents or annotations to shared workspaces, or making contributions to a wiki</li>
+</ol>
+<p>Shared workspaces are among the most visible entries in the collaboration space. Aimed at rolling document and application sharing up with chat and perhaps versioning and other auditing capabilities, they may have more or fewer features, and may be available either for license or on a syndicated basis “in the cloud,” as they say. Google Docs is a notable example of the latter, Microsoft SharePoint and EMC Documentum eRoom of the former.</p>
+<p>Wikis are perhaps best thought of as online encyclopedias or “how-to” manuals. They are applications that let users freely create, edit, and reorganize content using a Web browser. Perhaps the most visible example of this breed is Wikipedia, and variants exist throughout enterprises of all kinds and sizes.</p>
+<p>The plus and the minus of wikis are that more or less anyone can enter anything into the resource – so while they’re a great way to capture and share what people know, they also must be vetted to ensure nothing erroneous gets planted within (intentionally or otherwise). The good news is that, over time, active wikis tend to be of fairly high quality due to the self-policing nature of an engaged user base.</p>
+<p>Collaboration at the conceptual level, involves:</p>
+<ol>
+<li>Awareness (意識, 因知識而理解)  – We become part of a working entity with a shared purpose</li>
+<li>Motivation (動機) – We drive to gain consensus in problem solving or development</li>
+<li>Self-synchronization (主動同步)– We decide as individuals when things need to happen (與 Controlled-synchronization 相對)</li>
+<li>Participation (參與) – We participate in collaboration and we expect others to participate</li>
+<li>Mediation (調解) – We negotiate and we collaborate together and find a middle point</li>
+<li>Reciprocity (互惠)– We share and we expect sharing in return through reciprocity</li>
+<li>Reflection (反思) – We think and we consider alternatives</li>
+<li>Engagement (共識) – We proactively engage rather than wait and see</li>
+</ol>
+<p>參考資料: <a href="http://www.huffingtonpost.com/bruce-mayhew/what-is-collaboration-at-_b_5619086.html">http://www.huffingtonpost.com/bruce-mayhew/what-is-collaboration-at-_b_5619086.html</a> </p>
+<p>Collaboration at work is both simple and challenging.</p>
+<p>Collaboration is simple when you consider collaboration requires people to work in teams as they achieve agreed upon objectives.</p>
+<p>Collaboration is challenging when you consider collaboration requires a work environment that is fundamentally different from the vertical, hierarchical structure most businesses have operated for the last 50-plus years. The work environment and business leaders must help employees with varying abilities/experience to work in flexible, dynamic teams and to respectfully share information, decision-making, responsibility, learning and recognition.</p>
+<p>To generalize about how collaboration will be viewed by employees, Baby Boomers are familiar with vertical, hierarchical business structures; most Millennials and Gen Z have grown up in collaborative team-based environments sharing decision-making, knowledge and recognition, while Gen X fall somewhere in between. Generational familiarity is very important as we consider that the number of Millennials in the workforce will soon exceed the number of Baby Boomers... and the organizations that will succeed are the organizations that are preparing now by changing reward structures and educating employees (of all ages), to work in this shared... flexible, dynamic work environment.</p>
+<p>Collaboration Requirements</p>
+<p>Senior executive support is required because collaboration and the support of high-performance teams means a change to horizontal decision-making, reporting and reward/recognition structures.</p>
+<p>5 Benefits Of A Collaborative Environment</p>
+<p>The benefits of a collaborative work environment are significant. In collaborative organizations solutions are almost always:</p>
+<ol>
+<li>Faster To Market: Collaboration is a way to speed up product development without losing control or falling behind schedule.</li>
+<li>Cost Effective: More planning and agreement by stakeholders at the front end of a project means fewer mistakes and more direct routs to success.</li>
+<li>More Creative: A collaborative team environment lets every stakeholder draw on their unique talents and experience to share market-leading solutions in reference to project objective and goals.</li>
+<li>More Competitive: Collaboration is a way to get to market faster while being more responsive to customer needs.</li>
+<li>Build Customer Loyalty and Brand Value Organically: Innovative solutions that exceed customer expectations builds your brand and get your customers / prospects wanting to do business with you.</li>
+</ol>
+<p>5 Barriers To A Collaborative Environment</p>
+<ol>
+<li>Employee Alignment: It's far too easy to keep doing what's been done in the past. A well-implemented, well-trained and supported team will know how to work together and how to align their efforts around the company mission and value statements.</li>
+<li>Decision Making: Collaborative team members must actively recognize it is their responsibility to come to consensus. Only if the team cannot come to agreement within the given timeframe should the Leader be expected to make a project-related decision.</li>
+<li>Documentation: Documentation of all discussions and decisions is critical. Team members not only share a purpose, they share methodology for documenting and tracking all aspects of the project.</li>
+<li>Learning As A Individual And Team Reward: Staying focused on individual and team learning is key to success. Recognition and reward comes from being connected to a successful the project.</li>
+<li>Silos: Silos encourage redundancy and sub-optimal decision-making that significantly reduce an organizations responsiveness, productivity and profitability. They can not be part of a collaborative structure.</li>
+</ol>
+<p>Conclusion:</p>
+<p>Collaboration is the successful structure of the future - not a single conversation between two employees. A diverse and collaborative culture is a powerful competitive advantage. A well-implemented, trained and supported high-performance team will better align their outcomes around both their objective and company mission.</p>
+<p>Tomorrows successful organizations recognize that in today's complex professional environment that collaboration is critical.</p>
+<p>Collaborative leaders recognizes there will be challenges and that their greatest responsibility is to guide change and future success by preparing their employees to overcoming these challenges in a respectful and mindful way.</p>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+                <ul class="list-group" id="recentposts">
+                    <li class="list-group-item">
+                        <a href="./2016fall-dian-nao-fu-zhu-she-ji-shi-xi-ke-cheng-zong-jie-yi.html">
+                            2016Fall 電腦輔助設計實習課程總結 (一)
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="./blue-workforce-and-coppelia-robotics-have-merged.html">
+                            Blue Workforce and Coppelia Robotics  have merged
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="./li-yong-python-cheng-shi-jiang-docx-zhuan-wei-pdf.html">
+                            利用 Python 程式將 docx 轉為 pdf
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="./li-yong-git-submodule-gong-neng-jin-xing-zu-yuan-zi-liao-she-ji-zheng-he.html">
+                            利用 Git submodule 功能進行組員資料設計整合
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="./brython-dong-hua-ce-shi.html">
+                            Brython 動畫測試
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="list-group-item"><a href="./categories.html"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Categories</span></h4></a>
+                <ul class="list-group" id="categories">
+                    <li class="list-group-item">
+                        <a href="./category/misc.html">
+                            <i class="fa fa-folder-open fa-lg"></i> Misc
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="list-group-item"><a href="./tags.html"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                <ul class="list-group list-inline tagcloud" id="tags">
+                </ul>
+            </li>
+    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+      <ul class="list-group" id="links">
+        <li class="list-group-item">
+            <a href="http://getpelican.com/" target="_blank">
+                Pelican
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="https://github.com/DandyDev/pelican-bootstrap3/" target="_blank">
+                pelican-bootstrap3
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="https://github.com/getpelican/pelican-plugins" target="_blank">
+                pelican-plugins
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a href="https://github.com/Tipue/Tipue-Search" target="_blank">
+                Tipue search
+            </a>
+        </li>
+      </ul>
+    </li>
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 KMOL
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="./theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="./theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
